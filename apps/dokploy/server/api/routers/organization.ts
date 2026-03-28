@@ -1,5 +1,5 @@
 import { db } from "@dokploy/server/db";
-import { IS_CLOUD } from "@dokploy/server/index";
+import { IS_CLOUD, getOrganizationQuota } from "@dokploy/server/index";
 import { audit } from "@/server/api/utils/audit";
 import { TRPCError } from "@trpc/server";
 import { and, desc, eq, exists } from "drizzle-orm";
@@ -517,5 +517,14 @@ export const organizationRouter = createTRPCRouter({
 		return await db.query.organization.findFirst({
 			where: eq(organization.id, ctx.session.activeOrganizationId),
 		});
+	}),
+	getQuota: protectedProcedure.query(async ({ ctx }) => {
+		if (!ctx.session.activeOrganizationId) {
+			throw new TRPCError({
+				code: "BAD_REQUEST",
+				message: "Nenhuma organização ativa",
+			});
+		}
+		return getOrganizationQuota(ctx.session.activeOrganizationId);
 	}),
 });

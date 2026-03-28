@@ -4,6 +4,19 @@
 
 @layer base {
 	:root {
+		/* EasyTI Cloud - Light mode */
+		--easyti-primary: 221 83% 53%;
+		--easyti-primary-dark: 224 76% 40%;
+		--easyti-secondary: 215 20% 65%;
+		--easyti-bg-dark: 222 47% 11%;
+		--easyti-card-dark: 223 31% 16%;
+		--easyti-text-primary: 210 40% 98%;
+		--easyti-text-secondary: 215 20% 65%;
+		--easyti-text-muted: 215 15% 50%;
+		--easyti-success: 142 71% 45%;
+		--easyti-warning: 38 92% 50%;
+		--easyti-error: 0 84% 60%;
+		--easyti-info: 199 89% 48%;
 		--terminal-paste: rgba(0, 0, 0, 0.2);
 		--background: 0 0% 100%;
 		--foreground: 240 10% 3.9%;
@@ -52,6 +65,19 @@
 	}
 
 	.dark {
+		/* EasyTI Cloud - Dark mode overrides */
+		--easyti-primary: 217 91% 60%;
+		--easyti-primary-dark: 221 83% 48%;
+		--easyti-secondary: 215 20% 45%;
+		--easyti-bg-dark: 222 47% 6%;
+		--easyti-card-dark: 223 31% 12%;
+		--easyti-text-primary: 210 40% 98%;
+		--easyti-text-secondary: 215 20% 65%;
+		--easyti-text-muted: 215 15% 45%;
+		--easyti-success: 142 71% 45%;
+		--easyti-warning: 38 92% 50%;
+		--easyti-error: 0 84% 60%;
+		--easyti-info: 199 89% 48%;
 		--terminal-paste: rgba(255, 255, 255, 0.2);
 		--background: 0 0% 0%;
 		--foreground: 0 0% 98%;

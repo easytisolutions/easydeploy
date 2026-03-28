@@ -29,6 +29,9 @@ import {
 	findUserById,
 	IS_CLOUD,
 	updateProjectById,
+	checkQuota,
+	incrementQuota,
+	decrementQuota,
 } from "@dokploy/server";
 import { db } from "@dokploy/server/db";
 import {
@@ -72,6 +75,9 @@ export const projectRouter = createTRPCRouter({
 			try {
 				await checkProjectAccess(ctx, "create");
 
+				// EasyTI Cloud: enforce project quota
+				await checkQuota(ctx.session.activeOrganizationId, "project");
+
 				const admin = await findUserById(ctx.user.ownerId);
 
 				if (admin.serversQuantity === 0 && IS_CLOUD) {
@@ -86,8 +92,10 @@ export const projectRouter = createTRPCRouter({
 					ctx.session.activeOrganizationId,
 				);
 				await addNewProject(ctx, project.project.projectId);
-
 				await addNewEnvironment(ctx, project?.environment?.environmentId || "");
+
+				// EasyTI Cloud: increment project counter
+				await incrementQuota(ctx.session.activeOrganizationId, "project");
 
 				await audit(ctx, {
 					action: "create",
@@ -579,6 +587,9 @@ export const projectRouter = createTRPCRouter({
 				}
 				await checkProjectAccess(ctx, "delete", input.projectId);
 				const deletedProject = await deleteProject(input.projectId);
+
+				// EasyTI Cloud: decrement project counter
+				await decrementQuota(ctx.session.activeOrganizationId, "project");
 
 				await audit(ctx, {
 					action: "delete",

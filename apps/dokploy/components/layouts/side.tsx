@@ -150,9 +150,15 @@ const MENU: Menu = {
 	home: [
 		{
 			isSingle: true,
-			title: "Projects",
+			title: "Projetos",
 			url: "/dashboard/projects",
 			icon: Folder,
+		},
+		{
+			isSingle: true,
+			title: "🚀 Novo Deploy",
+			url: "/dashboard/deploy",
+			icon: Rocket,
 		},
 		{
 			isSingle: true,
@@ -417,7 +423,7 @@ const MENU: Menu = {
 	help: [
 		{
 			name: "Documentation",
-			url: "https://docs.dokploy.com/docs/core",
+			url: "https://docs.easyti.cloud",
 			icon: BookIcon,
 		},
 		{
@@ -1154,7 +1160,7 @@ export default function Page({ children }: Props) {
 						)}
 						{dokployVersion && (
 							<div className="px-3 text-xs text-muted-foreground text-center group-data-[collapsible=icon]:hidden">
-								Version {dokployVersion}
+								EasyTI Cloud v{dokployVersion}
 							</div>
 						)}
 					</SidebarMenu>

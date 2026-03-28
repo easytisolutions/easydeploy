@@ -3,6 +3,7 @@ import {
 	boolean,
 	index,
 	integer,
+	jsonb,
 	pgTable,
 	text,
 	timestamp,
@@ -68,6 +69,18 @@ export const organization = pgTable("organization", {
 	ownerId: text("owner_id")
 		.notNull()
 		.references(() => user.id, { onDelete: "cascade" }),
+	// EasyTI Cloud: quota/plan fields
+	plan: text("plan").default("free").notNull(),
+	planExpiresAt: timestamp("plan_expires_at"),
+	maxProjects: integer("max_projects").default(3).notNull(),
+	maxServices: integer("max_services").default(10).notNull(),
+	maxDatabases: integer("max_databases").default(5).notNull(),
+	maxStorageGb: integer("max_storage_gb").default(10).notNull(),
+	maxBandwidthGb: integer("max_bandwidth_gb").default(100).notNull(),
+	currentProjects: integer("current_projects").default(0).notNull(),
+	currentServices: integer("current_services").default(0).notNull(),
+	currentDatabases: integer("current_databases").default(0).notNull(),
+	customLimits: jsonb("custom_limits"),
 });
 
 export const organizationRole = pgTable(
