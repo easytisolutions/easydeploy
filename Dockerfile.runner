@@ -1,0 +1,36 @@
+# syntax=docker/dockerfile:1
+# ─────────────────────────────────────────────────────────────────────────────
+# Dockerfile.runner — Imagem base para deploy sem rebuild
+#
+# Esta imagem NÃO copia o código-fonte — ele é montado via volume do host.
+# Para atualizar o app: git pull no servidor + docker service update --force
+# O container reinicia, roda o build do Next.js e sobe automaticamente.
+#
+# Rebuild dessa imagem só é necessário quando mudar versão do Node/pnpm
+# ou adicionar ferramentas de sistema.
+# ─────────────────────────────────────────────────────────────────────────────
+FROM node:20-slim
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+ENV NODE_ENV=production
+
+# Ferramentas de sistema (raro mudar — layer fica em cache)
+RUN apt-get update && apt-get install -y \
+    python3 make g++ git curl unzip apache2-utils \
+    pkg-config libsecret-1-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# pnpm + tsx globais
+RUN corepack enable && corepack prepare pnpm@10.22.0 --activate
+RUN pnpm install -g tsx
+
+WORKDIR /app
+
+# O código-fonte chega via volume mount em /app (bind mount do host)
+# Entrypoint: instala deps se necessário, builda e inicia
+COPY docker-runner-entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+EXPOSE 3000
+ENTRYPOINT ["/entrypoint.sh"]
