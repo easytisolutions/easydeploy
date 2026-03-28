@@ -53,6 +53,12 @@ interface DeployConfig {
 	serverId?: string;
 	// Step 3: env
 	envVars?: Record<string, string>;
+	// Stack detection
+	stackType?: string;
+	packageManager?: "npm" | "yarn" | "pnpm" | "bun";
+	installCommand?: string;
+	buildCommand?: string;
+	startCommand?: string;
 }
 
 const STEPS = [
@@ -61,6 +67,150 @@ const STEPS = [
 	{ number: 3, title: "Variáveis de Ambiente", icon: "🔐" },
 	{ number: 4, title: "Deploy", icon: "🚀" },
 ] as const;
+
+const STACKS: {
+	id: string;
+	name: string;
+	emoji: string;
+	category: "node" | "python" | "php" | "go" | "ruby" | "static";
+	defaultInstall: string;
+	defaultBuild: string;
+	defaultStart: string;
+}[] = [
+	{ id: "nextjs", name: "Next.js", emoji: "▲", category: "node", defaultInstall: "npm ci", defaultBuild: "npm run build", defaultStart: "npm start" },
+	{ id: "react", name: "React / Vite", emoji: "⚛", category: "node", defaultInstall: "npm ci", defaultBuild: "npm run build", defaultStart: "" },
+	{ id: "vue", name: "Vue.js", emoji: "💚", category: "node", defaultInstall: "npm ci", defaultBuild: "npm run build", defaultStart: "" },
+	{ id: "nuxt", name: "Nuxt.js", emoji: "🟢", category: "node", defaultInstall: "npm ci", defaultBuild: "npm run build", defaultStart: "node .output/server/index.mjs" },
+	{ id: "express", name: "Express / Node", emoji: "🟩", category: "node", defaultInstall: "npm ci", defaultBuild: "", defaultStart: "node index.js" },
+	{ id: "nestjs", name: "NestJS", emoji: "🐈", category: "node", defaultInstall: "npm ci", defaultBuild: "npm run build", defaultStart: "node dist/main" },
+	{ id: "python", name: "Python / FastAPI", emoji: "🐍", category: "python", defaultInstall: "pip install -r requirements.txt", defaultBuild: "", defaultStart: "uvicorn main:app --host 0.0.0.0 --port 8080" },
+	{ id: "django", name: "Django", emoji: "🎸", category: "python", defaultInstall: "pip install -r requirements.txt", defaultBuild: "python manage.py collectstatic --noinput", defaultStart: "gunicorn -b 0.0.0.0:8080 wsgi:application" },
+	{ id: "laravel", name: "PHP / Laravel", emoji: "🐘", category: "php", defaultInstall: "composer install --no-dev --optimize-autoloader", defaultBuild: "", defaultStart: "php artisan serve --host=0.0.0.0 --port=8080" },
+	{ id: "go", name: "Go", emoji: "🐹", category: "go", defaultInstall: "go mod download", defaultBuild: "go build -o app .", defaultStart: "./app" },
+	{ id: "rails", name: "Ruby on Rails", emoji: "💎", category: "ruby", defaultInstall: "bundle install", defaultBuild: "bundle exec rake assets:precompile", defaultStart: "bundle exec rails s -b 0.0.0.0 -p 8080" },
+	{ id: "static", name: "HTML Estático", emoji: "🌐", category: "static", defaultInstall: "npm ci", defaultBuild: "npm run build", defaultStart: "" },
+];
+
+const PM_CMDS: Record<"npm" | "yarn" | "pnpm" | "bun", { install: string; run: string }> = {
+	npm: { install: "npm ci", run: "npm run" },
+	yarn: { install: "yarn install --frozen-lockfile", run: "yarn" },
+	pnpm: { install: "pnpm install --frozen-lockfile", run: "pnpm" },
+	bun: { install: "bun install", run: "bun run" },
+};
+
+function generateDockerfileContent(
+	stackId: string,
+	installCmd: string,
+	buildCmd: string,
+	startCmd: string,
+): string {
+	const cmd = (s: string) => `CMD ["sh", "-c", "${s}"]`;
+	switch (stackId) {
+		case "nextjs":
+		case "nuxt":
+		case "nestjs":
+			return [
+				"FROM node:20-alpine AS builder",
+				"WORKDIR /app",
+				"COPY package*.json ./",
+				installCmd ? `RUN ${installCmd}` : "",
+				"COPY . .",
+				buildCmd ? `RUN ${buildCmd}` : "",
+				"",
+				"FROM node:20-alpine",
+				"WORKDIR /app",
+				"COPY --from=builder /app .",
+				"EXPOSE 3000",
+				startCmd ? cmd(startCmd) : "",
+			].filter((l) => l !== undefined).join("\n");
+		case "react":
+		case "vue":
+		case "static":
+			return [
+				"FROM node:20-alpine AS builder",
+				"WORKDIR /app",
+				"COPY package*.json ./",
+				installCmd ? `RUN ${installCmd}` : "",
+				"COPY . .",
+				buildCmd ? `RUN ${buildCmd}` : "",
+				"",
+				"FROM nginx:alpine",
+				"COPY --from=builder /app/dist /usr/share/nginx/html",
+				"EXPOSE 80",
+				'CMD ["nginx", "-g", "daemon off;"]',
+			].filter((l) => l !== undefined).join("\n");
+		case "express":
+			return [
+				"FROM node:20-alpine",
+				"WORKDIR /app",
+				"COPY package*.json ./",
+				installCmd ? `RUN ${installCmd}` : "",
+				"COPY . .",
+				"EXPOSE 3000",
+				startCmd ? cmd(startCmd) : "",
+			].filter((l) => l !== undefined).join("\n");
+		case "python":
+		case "django":
+			return [
+				"FROM python:3.11-slim",
+				"WORKDIR /app",
+				"COPY requirements.txt .",
+				installCmd ? `RUN ${installCmd}` : "",
+				"COPY . .",
+				buildCmd ? `RUN ${buildCmd}` : "",
+				"EXPOSE 8080",
+				startCmd ? cmd(startCmd) : "",
+			].filter((l) => l !== undefined).join("\n");
+		case "laravel":
+			return [
+				"FROM php:8.2-cli-alpine",
+				"WORKDIR /var/www",
+				"COPY composer.json composer.lock ./",
+				"RUN apk add --no-cache curl && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer",
+				installCmd ? `RUN ${installCmd}` : "",
+				"COPY . .",
+				"EXPOSE 8080",
+				startCmd ? cmd(startCmd) : "",
+			].filter((l) => l !== undefined).join("\n");
+		case "go":
+			return [
+				"FROM golang:1.21-alpine AS builder",
+				"WORKDIR /app",
+				"COPY go.mod go.sum ./",
+				"RUN go mod download",
+				"COPY . .",
+				buildCmd ? `RUN ${buildCmd}` : "",
+				"",
+				"FROM alpine:latest",
+				"WORKDIR /app",
+				"COPY --from=builder /app/app .",
+				"EXPOSE 8080",
+				startCmd ? cmd(startCmd) : "",
+			].filter((l) => l !== undefined).join("\n");
+		case "rails":
+			return [
+				"FROM ruby:3.2-alpine",
+				"RUN apk add --no-cache build-base nodejs yarn tzdata",
+				"WORKDIR /rails",
+				"COPY Gemfile Gemfile.lock ./",
+				installCmd ? `RUN ${installCmd}` : "",
+				"COPY . .",
+				buildCmd ? `RUN ${buildCmd}` : "",
+				"EXPOSE 8080",
+				startCmd ? cmd(startCmd) : "",
+			].filter((l) => l !== undefined).join("\n");
+		default:
+			return [
+				"FROM node:20-alpine",
+				"WORKDIR /app",
+				"COPY . .",
+				installCmd ? `RUN ${installCmd}` : "",
+				buildCmd ? `RUN ${buildCmd}` : "",
+				"EXPOSE 3000",
+				startCmd ? cmd(startCmd) : "",
+			].filter((l) => l !== undefined).join("\n");
+	}
+}
 
 export function DeployWizard() {
 	const router = useRouter();
@@ -224,10 +374,19 @@ export function DeployWizard() {
 				.filter(([k]) => k.trim())
 				.map(([k, v]) => `${k}=${v}`)
 				.join("\n");
+			const nixpacksBuildArgs: string[] = [];
+			if (config.sourceType !== "docker" && config.stackType) {
+				if (config.installCommand)
+					nixpacksBuildArgs.push(`NIXPACKS_INSTALL_CMD=${config.installCommand}`);
+				if (config.buildCommand)
+					nixpacksBuildArgs.push(`NIXPACKS_BUILD_CMD=${config.buildCommand}`);
+				if (config.startCommand)
+					nixpacksBuildArgs.push(`NIXPACKS_START_CMD=${config.startCommand}`);
+			}
 			await saveEnvironment.mutateAsync({
 				applicationId,
 				env: envString,
-				buildArgs: "",
+				buildArgs: nixpacksBuildArgs.join("\n"),
 				buildSecrets: "",
 				createEnvFile: false,
 			});
@@ -1026,31 +1185,6 @@ function DockerConfig({
 // ─────────────────────────────────────────────
 // Step 2: Configurar Build
 // ─────────────────────────────────────────────
-const BUILD_OPTIONS: {
-	id: BuildType;
-	name: string;
-	description: string;
-	recommended?: boolean;
-}[] = [
-	{
-		id: "nixpacks",
-		name: "Detecção Automática",
-		description:
-			"Detectamos automaticamente Node.js, Python, Go, Ruby, PHP e mais",
-		recommended: true,
-	},
-	{
-		id: "dockerfile",
-		name: "Dockerfile",
-		description: "Use seu próprio Dockerfile do repositório",
-	},
-	{
-		id: "buildpack",
-		name: "Buildpack",
-		description: "Heroku Buildpacks para compatibilidade máxima",
-	},
-];
-
 function StepConfigureBuild({
 	config,
 	setConfig,
@@ -1060,49 +1194,183 @@ function StepConfigureBuild({
 }) {
 	const { data: servers } = api.server.withSSHKey.useQuery();
 	const { data: isCloud } = api.settings.isCloud.useQuery();
+	const [showDockerfile, setShowDockerfile] = useState(false);
+
+	const selectedStack = STACKS.find((s) => s.id === config.stackType);
+	const isNodeStack = selectedStack?.category === "node";
+
+	const handleStackSelect = (stackId: string) => {
+		const stack = STACKS.find((s) => s.id === stackId);
+		if (!stack) return;
+		const pm = config.packageManager ?? "npm";
+		const pmCmd = PM_CMDS[pm];
+		const installCmd =
+			stack.category === "node" ? pmCmd.install : stack.defaultInstall;
+		const buildCmd =
+			stack.category === "node" && stack.defaultBuild
+				? stack.defaultBuild.replace("npm run", pmCmd.run)
+				: stack.defaultBuild;
+		setConfig({
+			...config,
+			stackType: stackId,
+			buildType: "nixpacks",
+			installCommand: installCmd,
+			buildCommand: buildCmd,
+			startCommand: stack.defaultStart,
+		});
+	};
+
+	const handlePMChange = (pm: "npm" | "yarn" | "pnpm" | "bun") => {
+		const pmCmd = PM_CMDS[pm];
+		setConfig({
+			...config,
+			packageManager: pm,
+			installCommand: pmCmd.install,
+			buildCommand:
+				config.buildCommand?.replace(
+					/^(npm run|yarn|pnpm|bun run)/,
+					pmCmd.run,
+				) ?? "",
+		});
+	};
+
+	const dockerfileContent =
+		showDockerfile && config.stackType
+			? generateDockerfileContent(
+					config.stackType,
+					config.installCommand ?? "",
+					config.buildCommand ?? "",
+					config.startCommand ?? "",
+				)
+			: "";
 
 	return (
 		<div className="space-y-6">
-			<p className="text-muted-foreground text-center text-sm">
-				Como devemos construir sua aplicação?
-			</p>
-
 			{config.sourceType !== "docker" && (
-				<div className="space-y-3">
-					{BUILD_OPTIONS.map((option) => (
-						<button
-							key={option.id}
-							type="button"
-							onClick={() => setConfig({ ...config, buildType: option.id })}
-							className={`w-full p-4 rounded-lg border-2 transition-all text-left ${
-								config.buildType === option.id
-									? "border-easyti-primary bg-easyti-primary/10"
-									: "border-border hover:border-easyti-primary/50"
-							}`}
-						>
-							<div className="flex items-start justify-between">
-								<div>
-									<span className="font-medium text-sm">{option.name}</span>
-									{option.recommended && (
-										<span className="ml-2 text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded">
-											Recomendado
-										</span>
-									)}
-									<p className="text-xs text-muted-foreground mt-1">
-										{option.description}
-									</p>
-								</div>
-								<div
-									className={`w-4 h-4 rounded-full border-2 mt-0.5 flex-shrink-0 ${
-										config.buildType === option.id
-											? "border-easyti-primary bg-easyti-primary"
-											: "border-muted-foreground"
+				<>
+					<div>
+						<p className="text-sm text-muted-foreground text-center mb-3">
+							Qual a stack da sua aplicação?
+						</p>
+						<div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+							{STACKS.map((stack) => (
+								<button
+									key={stack.id}
+									type="button"
+									onClick={() => handleStackSelect(stack.id)}
+									className={`p-3 rounded-lg border-2 text-left transition-all ${
+										config.stackType === stack.id
+											? "border-easyti-primary bg-easyti-primary/10"
+											: "border-border hover:border-easyti-primary/50"
 									}`}
-								/>
+								>
+									<span className="text-xl">{stack.emoji}</span>
+									<p className="text-xs font-medium mt-1 leading-tight">
+										{stack.name}
+									</p>
+								</button>
+							))}
+						</div>
+					</div>
+
+					{isNodeStack && (
+						<div>
+							<Label className="text-sm">Package Manager</Label>
+							<div className="flex gap-2 mt-1">
+								{(["npm", "yarn", "pnpm", "bun"] as const).map((pm) => (
+									<button
+										key={pm}
+										type="button"
+										onClick={() => handlePMChange(pm)}
+										className={`flex-1 py-2 px-3 rounded-lg border transition-all text-sm font-mono ${
+											(config.packageManager ?? "npm") === pm
+												? "border-easyti-primary bg-easyti-primary/10 text-easyti-primary"
+												: "border-border hover:border-easyti-primary/50"
+										}`}
+									>
+										{pm}
+									</button>
+								))}
 							</div>
-						</button>
-					))}
-				</div>
+						</div>
+					)}
+
+					{config.stackType && (
+						<div className="space-y-2 p-4 bg-muted rounded-lg">
+							<p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-3">
+								Comandos de Build
+							</p>
+							{config.installCommand !== undefined && (
+								<div>
+									<Label className="text-xs text-muted-foreground">
+										Instalar dependências
+									</Label>
+									<Input
+										value={config.installCommand}
+										onChange={(e) =>
+											setConfig({
+												...config,
+												installCommand: e.target.value,
+											})
+										}
+										className="mt-1 font-mono text-sm h-8"
+										placeholder="npm ci"
+									/>
+								</div>
+							)}
+							{config.buildCommand !== undefined && (
+								<div>
+									<Label className="text-xs text-muted-foreground">
+										Build
+									</Label>
+									<Input
+										value={config.buildCommand}
+										onChange={(e) =>
+											setConfig({
+												...config,
+												buildCommand: e.target.value,
+											})
+										}
+										className="mt-1 font-mono text-sm h-8"
+										placeholder="npm run build"
+									/>
+								</div>
+							)}
+							{config.startCommand !== undefined && (
+								<div>
+									<Label className="text-xs text-muted-foreground">
+										Start
+									</Label>
+									<Input
+										value={config.startCommand}
+										onChange={(e) =>
+											setConfig({
+												...config,
+												startCommand: e.target.value,
+											})
+										}
+										className="mt-1 font-mono text-sm h-8"
+										placeholder="npm start"
+									/>
+								</div>
+							)}
+							<button
+								type="button"
+								onClick={() => setShowDockerfile((v) => !v)}
+								className="text-xs text-easyti-primary hover:underline mt-1"
+							>
+								{showDockerfile
+									? "▲ Ocultar Dockerfile gerado"
+									: "▼ Ver Dockerfile equivalente"}
+							</button>
+							{showDockerfile && (
+								<pre className="mt-2 p-3 bg-black/80 rounded text-xs font-mono text-green-400 overflow-x-auto whitespace-pre">
+									{dockerfileContent}
+								</pre>
+							)}
+						</div>
+					)}
+				</>
 			)}
 
 			<div className="pt-4 border-t border-border space-y-3">
