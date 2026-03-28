@@ -1,12 +1,12 @@
-name: Dokploy Docker Build
+name: EasyDeploy Docker Build
 
 on:
   push:
-    branches: [main, canary, "fix/re-apply-database-migration-fix"]
+    branches: [main, canary]
   workflow_dispatch:
 
 env:
-  IMAGE_NAME: dokploy/dokploy
+  IMAGE_NAME: easytisolutions/easydeploy
 
 jobs:
   docker-amd:
