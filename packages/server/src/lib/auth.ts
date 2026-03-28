@@ -37,7 +37,7 @@ const { handler, api } = betterAuth({
 		"/organization/delete",
 	],
 	secret: BETTER_AUTH_SECRET,
-	...(!IS_CLOUD
+	...(!IS_CLOUD || process.env.DISABLE_SECURE_COOKIES === "true"
 		? {
 				advanced: {
 					useSecureCookies: false,
