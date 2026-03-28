@@ -139,6 +139,20 @@ else
     . /etc/dokploy/.env 2>/dev/null || true
 fi
 
+# ── Iniciar Redis ────────────────────────────────────
+if $SUDO_CMD docker service ls 2>/dev/null | grep -q "dokploy-redis"; then
+    echo "Redis já em execução ✅"
+else
+    $SUDO_CMD docker volume create dokploy-redis 2>/dev/null || true
+    $SUDO_CMD docker service create \
+        --name dokploy-redis \
+        --network dokploy-network \
+        --mount type=volume,source=dokploy-redis,target=/data \
+        --constraint "node.role==manager" \
+        redis:7
+    echo "Redis iniciado ✅"
+fi
+
 # ── Iniciar PostgreSQL ───────────────────────────────
 if $SUDO_CMD docker service ls 2>/dev/null | grep -q "easydeploy-postgres"; then
     echo "PostgreSQL já em execução ✅"
