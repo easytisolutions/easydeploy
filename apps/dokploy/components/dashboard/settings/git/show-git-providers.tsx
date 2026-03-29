@@ -299,6 +299,6 @@ export const ShowGitProviders = () => {
 					</CardContent>
 				</div>
 			</Card>
-		</div>
+		</PageTransition>
 	);
 };
