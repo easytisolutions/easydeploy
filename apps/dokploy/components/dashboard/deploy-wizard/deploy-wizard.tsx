@@ -398,7 +398,7 @@ export function DeployWizard() {
 			if (config.sourceType !== "docker") {
 				await saveBuildType.mutateAsync({
 					applicationId,
-					buildType: config.buildType || "nixpacks",
+					buildType: (config.buildType === "buildpack" ? "paketo_buildpacks" : config.buildType as any) || "nixpacks",
 					dockerfile: null,
 					dockerContextPath: null,
 					dockerBuildStage: null,

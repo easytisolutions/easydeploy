@@ -32,7 +32,7 @@ DeployPage.getLayout = (page: ReactElement) => {
 export default DeployPage;
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-	const { user, session } = await validateRequest(ctx.req, ctx.res);
+	const { user, session } = await validateRequest(ctx.req);
 	if (!user) {
 		return {
 			redirect: {

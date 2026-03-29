@@ -404,7 +404,7 @@ const EnvironmentPage = (
 	const applications = extractServicesFromEnvironment(currentEnvironment);
 
 	const projectServicesCount = projectData?.environments?.reduce((acc, env) => {
-		return acc + extractServicesFromEnvironment(env).length;
+		return acc + extractServicesFromEnvironment(env as any).length;
 	}, 0) || 0;
 
 	const [searchQuery, setSearchQuery] = useState("");

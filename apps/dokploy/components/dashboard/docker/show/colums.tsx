@@ -114,7 +114,7 @@ export const columns: ColumnDef<Container>[] = [
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 						<ShowDockerModalLogs
 							containerId={container.containerId}
-							serverId={container.serverId}
+							serverId={container.serverId || undefined}
 						>
 							View Logs
 						</ShowDockerModalLogs>
@@ -130,7 +130,7 @@ export const columns: ColumnDef<Container>[] = [
 						</DockerTerminalModal>
 						<RemoveContainerDialog
 							containerId={container.containerId}
-							serverId={container.serverId}
+							serverId={container.serverId || undefined}
 						/>
 					</DropdownMenuContent>
 				</DropdownMenu>

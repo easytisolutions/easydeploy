@@ -30,7 +30,7 @@ export const AddGithubProvider = () => {
 		const url = document.location.origin;
 		const manifest = JSON.stringify(
 			{
-				redirect_url: `${origin}/api/providers/github/setup?organizationId=${activeOrganização?.id ?? ""}&userId=${session?.user?.id ?? ""}`,
+				redirect_url: `${origin}/api/providers/github/setup?organizationId=${activeOrganization?.id ?? ""}&userId=${session?.user?.id ?? ""}`,
 				name: `Dokploy-${format(new Date(), "yyyy-MM-dd")}-${randomString()}`,
 				url: origin,
 				hook_attributes: {
@@ -52,7 +52,7 @@ export const AddGithubProvider = () => {
 		);
 
 		setManifest(manifest);
-	}, [activeOrganização?.id, session?.user?.id]);
+	}, [activeOrganization?.id, session?.user?.id]);
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -98,8 +98,8 @@ export const AddGithubProvider = () => {
 							<form
 								action={
 									isOrganization
-										? `https://github.com/organizations/${organizationName}/settings/apps/new?state=gh_init:${activeOrganização?.id}:${session?.user?.id ?? ""}`
-										: `https://github.com/settings/apps/new?state=gh_init:${activeOrganização?.id}:${session?.user?.id ?? ""}`
+										? `https://github.com/organizations/${organizationName}/settings/apps/new?state=gh_init:${activeOrganization?.id}:${session?.user?.id ?? ""}`
+										: `https://github.com/settings/apps/new?state=gh_init:${activeOrganization?.id}:${session?.user?.id ?? ""}`
 								}
 								method="post"
 							>

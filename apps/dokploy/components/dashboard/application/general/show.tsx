@@ -330,7 +330,8 @@ export const ShowGeneralApplication = ({ applicationId }: Props) => {
 				</CardContent>
 			</Card>
 			 <ShowProviderForm applicationId={applicationId} />
-			{/*  {/* <ShowBuildChooseForm applicationId={applicationId} /> */} \n{/* Builder type hidden as per EasyTi requirements */} */} \n{/* Builder type hidden as per EasyTi requirements */}
+			{/* <ShowBuildChooseForm applicationId={applicationId} /> */}
+{/* Builder type hidden as per EasyTi requirements */}
 		</>
 	);
 };
