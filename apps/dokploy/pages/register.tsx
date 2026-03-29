@@ -124,22 +124,23 @@ const Register = ({ isCloud }: Props) => {
 		<div className="">
 			<div className="flex  w-full items-center justify-center ">
 				<div className="flex flex-col items-center gap-4 w-full">
-					<CardTitle className="text-2xl font-bold flex  items-center gap-2">
-						<Link href="/" className="flex flex-row items-center gap-2">
-							<Logo
-								className="size-12"
-								logoUrl={
-									whitelabeling?.loginLogoUrl ||
-									whitelabeling?.logoUrl ||
-									undefined
-								}
-							/>
-						</Link>
-						{isCloud ? "Sign Up" : "Setup the server"}
+					<div className="flex justify-center lg:hidden mb-2">
+						<Logo
+							className="h-12 w-auto"
+							logoUrl={
+								whitelabeling?.loginLogoUrl ||
+								whitelabeling?.logoUrl ||
+								undefined
+							}
+						/>
+					</div>
+					<CardTitle className="text-2xl font-bold">
+						{isCloud ? "Criar conta" : "Configurar servidor"}
 					</CardTitle>
 					<CardDescription>
-						Enter your email and password to{" "}
-						{isCloud ? "create an account" : "setup the server"}
+						{isCloud
+							? "Preencha seus dados para criar sua conta"
+							: "Configure o administrador do servidor"}
 					</CardDescription>
 					<div className="mx-auto w-full max-w-lg bg-transparent">
 						{isError && (
@@ -153,8 +154,7 @@ const Register = ({ isCloud }: Props) => {
 						{isCloud && data && (
 							<AlertBlock type="success" className="my-2">
 								<span>
-									Registered successfully, please check your inbox or spam
-									folder to confirm your account.
+									Conta criada com sucesso! Verifique sua caixa de entrada ou pasta de spam para confirmar.
 								</span>
 							</AlertBlock>
 						)}
@@ -166,9 +166,14 @@ const Register = ({ isCloud }: Props) => {
 								</div>
 							)}
 							{isCloud && (
-								<p className="mb-4 text-center text-xs text-muted-foreground">
-									Or register with email
-								</p>
+								<div className="relative my-4">
+									<div className="absolute inset-0 flex items-center">
+										<span className="w-full border-t" />
+									</div>
+									<div className="relative flex justify-center text-xs uppercase">
+										<span className="bg-background px-2 text-muted-foreground">ou cadastre com email</span>
+									</div>
+								</div>
 							)}
 							<Form {...form}>
 								<form
@@ -181,9 +186,9 @@ const Register = ({ isCloud }: Props) => {
 											name="name"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>First Name</FormLabel>
+													<FormLabel>Nome</FormLabel>
 													<FormControl>
-														<Input placeholder="John" {...field} />
+														<Input placeholder="João" {...field} />
 													</FormControl>
 													<FormMessage />
 												</FormItem>
@@ -194,9 +199,9 @@ const Register = ({ isCloud }: Props) => {
 											name="lastName"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Last Name</FormLabel>
+													<FormLabel>Sobrenome</FormLabel>
 													<FormControl>
-														<Input placeholder="Doe" {...field} />
+														<Input placeholder="Silva" {...field} />
 													</FormControl>
 													<FormMessage />
 												</FormItem>
@@ -209,7 +214,7 @@ const Register = ({ isCloud }: Props) => {
 												<FormItem>
 													<FormLabel>Email</FormLabel>
 													<FormControl>
-														<Input placeholder="email@dokploy.com" {...field} />
+														<Input placeholder="seu@email.com" {...field} />
 													</FormControl>
 													<FormMessage />
 												</FormItem>
@@ -220,11 +225,11 @@ const Register = ({ isCloud }: Props) => {
 											name="password"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Password</FormLabel>
+													<FormLabel>Senha</FormLabel>
 													<FormControl>
 														<Input
 															type="password"
-															placeholder="Password"
+															placeholder="Mínimo 8 caracteres"
 															{...field}
 														/>
 													</FormControl>
@@ -238,11 +243,11 @@ const Register = ({ isCloud }: Props) => {
 											name="confirmPassword"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Confirm Password</FormLabel>
+													<FormLabel>Confirmar Senha</FormLabel>
 													<FormControl>
 														<Input
 															type="password"
-															placeholder="Password"
+															placeholder="Repita a senha"
 															{...field}
 														/>
 													</FormControl>
@@ -254,9 +259,9 @@ const Register = ({ isCloud }: Props) => {
 										<Button
 											type="submit"
 											isLoading={form.formState.isSubmitting}
-											className="w-full"
+											className="w-full bg-easyti-primary hover:bg-easyti-primary-dark text-white"
 										>
-											Register
+											Cadastrar
 										</Button>
 									</div>
 								</form>
@@ -264,21 +269,21 @@ const Register = ({ isCloud }: Props) => {
 							<div className="flex flex-row justify-between flex-wrap">
 								{isCloud && (
 									<div className="mt-4 text-center text-sm flex gap-2 text-muted-foreground">
-										Already have account?
-										<Link className="underline" href="/">
-											Sign in
+										Já tem uma conta?
+										<Link className="underline text-easyti-primary" href="/">
+											Entrar
 										</Link>
 									</div>
 								)}
 
-								<div className="mt-4 text-center text-sm flex flex-row justify-center gap-2  text-muted-foreground">
-									Need help?
+								<div className="mt-4 text-center text-sm flex flex-row justify-center gap-2 text-muted-foreground">
+									Precisa de ajuda?
 									<Link
 										className="underline"
-										href="https://dokploy.com"
+										href="https://easyti.cloud"
 										target="_blank"
 									>
-										Contact us
+										Fale conosco
 									</Link>
 								</div>
 							</div>

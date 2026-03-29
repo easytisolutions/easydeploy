@@ -169,6 +169,16 @@ export default function Home({ IS_CLOUD }: Props) {
 		<>
 			{IS_CLOUD && <SignInWithGithub />}
 			{IS_CLOUD && <SignInWithGoogle />}
+			{(IS_CLOUD) && (
+				<div className="relative my-2">
+					<div className="absolute inset-0 flex items-center">
+						<span className="w-full border-t" />
+					</div>
+					<div className="relative flex justify-center text-xs uppercase">
+						<span className="bg-background px-2 text-muted-foreground">ou continue com email</span>
+					</div>
+				</div>
+			)}
 			<Form {...loginForm}>
 				<form
 					onSubmit={loginForm.handleSubmit(onSubmit)}
@@ -182,7 +192,7 @@ export default function Home({ IS_CLOUD }: Props) {
 							<FormItem>
 								<FormLabel>Email</FormLabel>
 								<FormControl>
-									<Input placeholder="john@example.com" {...field} />
+									<Input placeholder="seu@email.com" {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -193,11 +203,11 @@ export default function Home({ IS_CLOUD }: Props) {
 						name="password"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Password</FormLabel>
+								<FormLabel>Senha</FormLabel>
 								<FormControl>
 									<Input
 										type="password"
-										placeholder="Enter your password"
+										placeholder="Digite sua senha"
 										{...field}
 									/>
 								</FormControl>
@@ -205,8 +215,8 @@ export default function Home({ IS_CLOUD }: Props) {
 							</FormItem>
 						)}
 					/>
-					<Button className="w-full" type="submit" isLoading={isLoginLoading}>
-						Login
+					<Button className="w-full bg-easyti-primary hover:bg-easyti-primary-dark text-white" type="submit" isLoading={isLoginLoading}>
+						Entrar
 					</Button>
 				</form>
 			</Form>
@@ -215,22 +225,22 @@ export default function Home({ IS_CLOUD }: Props) {
 
 	return (
 		<>
-			<div className="flex flex-col space-y-2 text-center">
-				<h1 className="text-2xl font-semibold tracking-tight">
-					<div className="flex flex-row items-center justify-center gap-2">
-						<Logo
-							className="size-12"
-							logoUrl={
-								whitelabeling?.loginLogoUrl ||
-								whitelabeling?.logoUrl ||
-								undefined
-							}
-						/>
-						Sign in
-					</div>
+			<div className="flex flex-col space-y-3 text-center">
+				<div className="flex justify-center lg:hidden mb-2">
+					<Logo
+						className="h-12 w-auto"
+						logoUrl={
+							whitelabeling?.loginLogoUrl ||
+							whitelabeling?.logoUrl ||
+							undefined
+						}
+					/>
+				</div>
+				<h1 className="text-2xl font-bold tracking-tight">
+					Bem-vindo de volta
 				</h1>
 				<p className="text-sm text-muted-foreground">
-					Enter your email and password to sign in
+					Entre com suas credenciais para acessar o painel
 				</p>
 			</div>
 			{error && (
@@ -256,7 +266,7 @@ export default function Home({ IS_CLOUD }: Props) {
 							autoComplete="off"
 						>
 							<div className="flex flex-col gap-2">
-								<Label>2FA Code</Label>
+								<Label>Código 2FA</Label>
 								<InputOTP
 									value={twoFactorCode}
 									onChange={setTwoFactorCode}
@@ -274,14 +284,14 @@ export default function Home({ IS_CLOUD }: Props) {
 									</InputOTPGroup>
 								</InputOTP>
 								<CardDescription>
-									Enter the 6-digit code from your authenticator app
+									Digite o código de 6 dígitos do seu app autenticador
 								</CardDescription>
 								<button
 									type="button"
 									onClick={() => setIsBackupCodeModalOpen(true)}
 									className="text-sm text-muted-foreground hover:underline self-start mt-2"
 								>
-									Lost access to your authenticator app?
+									Perdeu acesso ao app autenticador?
 								</button>
 							</div>
 
@@ -295,14 +305,14 @@ export default function Home({ IS_CLOUD }: Props) {
 										setTwoFactorCode("");
 									}}
 								>
-									Back
+									Voltar
 								</Button>
 								<Button
-									className="w-full"
+									className="w-full bg-easyti-primary hover:bg-easyti-primary-dark text-white"
 									type="submit"
 									isLoading={isTwoFactorLoading}
 								>
-									Verify
+									Verificar
 								</Button>
 							</div>
 						</form>
@@ -313,24 +323,23 @@ export default function Home({ IS_CLOUD }: Props) {
 						>
 							<DialogContent>
 								<DialogHeader>
-									<DialogTitle>Enter Backup Code</DialogTitle>
+									<DialogTitle>Código de Backup</DialogTitle>
 									<DialogDescription>
-										Enter one of your backup codes to access your account
+										Digite um dos seus códigos de backup para acessar sua conta
 									</DialogDescription>
 								</DialogHeader>
 
 								<form onSubmit={onBackupCodeSubmit} className="space-y-4">
 									<div className="flex flex-col gap-2">
-										<Label>Backup Code</Label>
+										<Label>Código de Backup</Label>
 										<Input
 											value={backupCode}
 											onChange={(e) => setBackupCode(e.target.value)}
-											placeholder="Enter your backup code"
+											placeholder="Digite seu código de backup"
 											className="font-mono"
 										/>
 										<CardDescription>
-											Enter one of the backup codes you received when setting up
-											2FA
+											Digite um dos códigos de backup que você recebeu ao configurar o 2FA
 										</CardDescription>
 									</div>
 
@@ -344,14 +353,14 @@ export default function Home({ IS_CLOUD }: Props) {
 												setBackupCode("");
 											}}
 										>
-											Cancel
+											Cancelar
 										</Button>
 										<Button
-											className="w-full"
+											className="w-full bg-easyti-primary hover:bg-easyti-primary-dark text-white"
 											type="submit"
 											isLoading={isBackupCodeLoading}
 										>
-											Verify
+											Verificar
 										</Button>
 									</div>
 								</form>
@@ -364,10 +373,10 @@ export default function Home({ IS_CLOUD }: Props) {
 					<div className="mt-4 text-center text-sm flex flex-row justify-center gap-2">
 						{IS_CLOUD && (
 							<Link
-								className="hover:underline text-muted-foreground"
+								className="hover:underline text-easyti-primary"
 								href="/register"
 							>
-								Create an account
+								Criar uma conta
 							</Link>
 						)}
 					</div>
@@ -378,7 +387,7 @@ export default function Home({ IS_CLOUD }: Props) {
 								className="hover:underline text-muted-foreground"
 								href="/send-reset-password"
 							>
-								Lost your password?
+								Esqueceu sua senha?
 							</Link>
 						) : (
 							<Link
@@ -386,7 +395,7 @@ export default function Home({ IS_CLOUD }: Props) {
 								href="https://docs.easyti.cloud/reset-password"
 								target="_blank"
 							>
-								Lost your password?
+								Esqueceu sua senha?
 							</Link>
 						)}
 					</div>

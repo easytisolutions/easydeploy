@@ -2,7 +2,8 @@
 
 import type { inferRouterOutputs } from "@trpc/server";
 import Link from "next/link";
-import { ArrowRight, ListTodo, Loader2, XCircle } from "lucide-react";
+import { ArrowRight, ListTodo, XCircle } from "lucide-react";
+import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -90,9 +91,13 @@ export function ShowQueueTable(props: { embedded?: boolean }) {
 	return (
 		<div className="px-0">
 			{isLoading ? (
-				<div className="flex gap-4 w-full items-center justify-center min-h-[30vh] text-muted-foreground">
-					<Loader2 className="size-4 animate-spin" />
-					<span>Loading queue...</span>
+				<div className="flex gap-4 w-full items-center justify-center min-h-[30vh] text-muted-foreground flex-col">
+					<motion.div
+						animate={{ rotate: 360 }}
+						transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+						className="size-8 rounded-full border-b-2 border-easyti-primary"
+					/>
+					<span>Carregando fila...</span>
 				</div>
 			) : (
 				<div className="rounded-md border overflow-x-auto">

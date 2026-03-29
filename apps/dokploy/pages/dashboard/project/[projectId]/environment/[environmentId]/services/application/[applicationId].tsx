@@ -111,13 +111,13 @@ const Service = (
 			<AdvanceBreadcrumb />
 			<Head>
 				<title>
-					Application: {data?.name} - {data?.environment.project.name} |{" "}
+					Aplicação: {data?.name} - {data?.environment.project.name} |{" "}
 					{appName}
 				</title>
 			</Head>
 			<div className="w-full">
-				<Card className="h-full bg-sidebar p-2.5 rounded-xl w-full">
-					<div className="rounded-xl bg-background shadow-md ">
+				<Card className="h-full bg-sidebar p-2.5 rounded-xl w-full border-none shadow-none">
+					<div className="rounded-xl bg-background shadow-md border-t-4 border-t-easyti-primary">
 						<CardHeader className="flex flex-row justify-between items-center">
 							<div className="flex flex-col gap-1">
 								<CardTitle className="text-xl flex flex-row gap-2 items-center">
@@ -147,7 +147,7 @@ const Service = (
 										onClick={() => {
 											if (data?.server?.ipAddress) {
 												copy(data.server.ipAddress);
-												toast.success("IP Address Copied!");
+												toast.success("Endereço IP copiado!");
 											}
 										}}
 										variant={
@@ -158,7 +158,7 @@ const Service = (
 													: "destructive"
 										}
 									>
-										{data?.server?.name || "Dokploy Server"}
+										{data?.server?.name || "Servidor Dokploy"}
 									</Badge>
 									{data?.server?.serverStatus === "inactive" && (
 										<TooltipProvider delayDuration={0}>
@@ -174,9 +174,9 @@ const Service = (
 													side="top"
 												>
 													<span>
-														You cannot, deploy this application because the
-														server is inactive, please upgrade your plan to add
-														more servers.
+														Você não pode implantar esta aplicação porque o
+														servidor está inativo, faça upgrade do seu plano para adicionar
+														mais servidores.
 													</span>
 												</TooltipContent>
 											</Tooltip>
@@ -194,24 +194,24 @@ const Service = (
 								</div>
 							</div>
 						</CardHeader>
-						<CardContent className="space-y-2 py-8 border-t">
+						<CardContent className="space-y-4 py-8 border-t">
 							{data?.server?.serverStatus === "inactive" ? (
 								<div className="flex h-[55vh] border-2 rounded-xl border-dashed p-4">
 									<div className="max-w-3xl mx-auto flex flex-col items-center justify-center self-center gap-3">
 										<ServerOff className="size-10 text-muted-foreground self-center" />
 										<span className="text-center text-base text-muted-foreground">
-											This service is hosted on the server {data.server.name},
-											but this server has been disabled because your current
-											plan doesn't include enough servers. Please purchase more
-											servers to regain access to this application.
+											Este serviço está hospedado no servidor {data.server.name},
+											mas este servidor foi desativado porque o seu atual
+											plano não inclui servidores suficientes. Por favor, compre mais
+											servidores para recuperar o acesso a este aplicativo.
 										</span>
 										<span className="text-center text-base text-muted-foreground">
-											Go to{" "}
+											Vá para{" "}
 											<Link
 												href="/dashboard/settings/billing"
-												className="text-primary"
+												className="text-easyti-primary"
 											>
-												Billing
+												Faturamento
 											</Link>
 										</span>
 									</div>
@@ -229,31 +229,31 @@ const Service = (
 								>
 									<div className="flex flex-row items-center justify-between w-full overflow-auto">
 										<TabsList className="flex gap-8 max-md:gap-4 justify-start">
-											<TabsTrigger value="general">General</TabsTrigger>
+											<TabsTrigger value="general">Geral</TabsTrigger>
 											{permissions?.envVars.read && (
 												<TabsTrigger value="environment">
-													Environment
+													Variáveis
 												</TabsTrigger>
 											)}
 											{permissions?.domain.read && (
-												<TabsTrigger value="domains">Domains</TabsTrigger>
+												<TabsTrigger value="domains">Domínios</TabsTrigger>
 											)}
 											{permissions?.deployment.read && (
 												<TabsTrigger value="deployments">
-													Deployments
+													Deploys
 												</TabsTrigger>
 											)}
 											{permissions?.deployment.read && (
 												<TabsTrigger value="preview-deployments">
-													Preview Deployments
+													Previews
 												</TabsTrigger>
 											)}
 											{permissions?.schedule.read && (
-												<TabsTrigger value="schedules">Schedules</TabsTrigger>
+												<TabsTrigger value="schedules">Jobs</TabsTrigger>
 											)}
 											{permissions?.volumeBackup.read && (
 												<TabsTrigger value="volume-backups">
-													Volume Backups
+													Backups
 												</TabsTrigger>
 											)}
 											{permissions?.logs.read && (
@@ -265,11 +265,11 @@ const Service = (
 											{permissions?.monitoring.read &&
 												((data?.serverId && isCloud) || !data?.server) && (
 													<TabsTrigger value="monitoring">
-														Monitoring
+														Monitoramento
 													</TabsTrigger>
 												)}
 											{permissions?.service.create && (
-												<TabsTrigger value="advanced">Advanced</TabsTrigger>
+												<TabsTrigger value="advanced">Avançado</TabsTrigger>
 											)}
 										</TabsList>
 									</div>

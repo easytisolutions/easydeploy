@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -485,9 +486,13 @@ export function ShowDeploymentsTable() {
 			</div>
 			<div className="px-0">
 				{isLoading ? (
-					<div className="flex gap-4 w-full items-center justify-center min-h-[45vh] text-muted-foreground">
-						<Loader2 className="size-4 animate-spin" />
-						<span>Loading deployments...</span>
+					<div className="flex gap-4 w-full items-center justify-center min-h-[45vh] text-muted-foreground flex-col">
+						<motion.div
+							animate={{ rotate: 360 }}
+							transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+							className="size-8 rounded-full border-b-2 border-easyti-primary"
+						/>
+						<span>Carregando deploys...</span>
 					</div>
 				) : (
 					<>

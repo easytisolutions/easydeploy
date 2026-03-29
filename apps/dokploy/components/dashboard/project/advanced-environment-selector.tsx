@@ -60,7 +60,7 @@ export const AdvancedEnvironmentSelector = ({
 	const { data: permissions } = api.user.getPermissions.useQuery();
 
 	// Check if user can create environments
-	const canCreateEnvironments = !!permissions?.environment.create;
+	const canCreateEnvironments = false; // Disabilitado para reforçar a regra de 1 ambiente "production" apenas
 
 	// Check if user can delete environments
 	const canDeleteEnvironments = !!permissions?.environment.delete;

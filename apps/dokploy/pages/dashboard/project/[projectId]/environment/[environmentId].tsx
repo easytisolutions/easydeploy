@@ -403,6 +403,10 @@ const EnvironmentPage = (
 
 	const applications = extractServicesFromEnvironment(currentEnvironment);
 
+	const projectServicesCount = projectData?.environments?.reduce((acc, env) => {
+		return acc + extractServicesFromEnvironment(env).length;
+	}, 0) || 0;
+
 	const [searchQuery, setSearchQuery] = useState("");
 	const serviceTypes = [
 		{ value: "application", label: "Application", icon: GlobeIcon },
@@ -912,12 +916,12 @@ const EnvironmentPage = (
 									<ProjectEnvironment projectId={projectId}>
 										<Button variant="outline">Project Environment</Button>
 									</ProjectEnvironment>
-									{permissions?.service.create && (
+									{permissions?.service.create && projectServicesCount === 0 && (
 										<DropdownMenu>
 											<DropdownMenuTrigger asChild>
-												<Button>
-													<PlusIcon className="h-4 w-4" />
-													Create Service
+												<Button className="bg-easyti-primary hover:bg-easyti-primary-dark text-white">
+													<PlusIcon className="h-4 w-4 mr-1" />
+													Novo Serviço
 												</Button>
 											</DropdownMenuTrigger>
 											<DropdownMenuContent
@@ -925,7 +929,7 @@ const EnvironmentPage = (
 												align="end"
 											>
 												<DropdownMenuLabel className="text-sm font-normal">
-													Actions
+													Ações
 												</DropdownMenuLabel>
 												<DropdownMenuSeparator />
 												<AddApplication
@@ -937,11 +941,6 @@ const EnvironmentPage = (
 													environmentId={environmentId}
 												/>
 												<AddCompose
-													projectName={projectData?.name}
-													environmentId={environmentId}
-												/>
-												<AddTemplate environmentId={environmentId} />
-												<AddAiAssistant
 													projectName={projectData?.name}
 													environmentId={environmentId}
 												/>
@@ -1450,11 +1449,24 @@ const EnvironmentPage = (
 
 								<div className="flex w-full gap-8">
 									{emptyServices ? (
-										<div className="flex h-[70vh] w-full flex-col items-center justify-center">
+										<div className="flex h-[70vh] w-full flex-col items-center justify-center space-y-4">
 											<FolderInput className="size-8 self-center text-muted-foreground" />
 											<span className="text-center font-medium text-muted-foreground">
-												No services added yet. Click on Create Service.
+												Nenhum serviço adicionado ainda.
 											</span>
+											{!projectServicesCount && permissions?.service.create && (
+												<Button
+													className="bg-easyti-primary hover:bg-easyti-primary-dark text-white"
+													onClick={() => {
+														const trigger = document.querySelector('[data-state="closed"]');
+														if (trigger instanceof HTMLElement) {
+															trigger.click();
+														}
+													}}
+												>
+													Criar Serviço
+												</Button>
+											)}
 										</div>
 									) : filteredServices.length === 0 ? (
 										<div className="flex h-[70vh] w-full flex-col items-center justify-center">

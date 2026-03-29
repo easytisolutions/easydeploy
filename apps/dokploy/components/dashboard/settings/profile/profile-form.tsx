@@ -149,23 +149,23 @@ export const ProfileForm = () => {
 
 	return (
 		<div className="w-full">
-			<Card className="h-full bg-sidebar  p-2.5 rounded-xl  max-w-5xl mx-auto">
-				<div className="rounded-xl bg-background shadow-md ">
+			<Card className="h-full bg-sidebar p-2.5 rounded-xl max-w-5xl mx-auto border-none shadow-none">
+				<div className="rounded-xl bg-background shadow-md border-t-4 border-t-easyti-primary">
 					<CardHeader className="flex flex-row gap-2 flex-wrap justify-between items-center">
 						<div>
 							<CardTitle className="text-xl flex flex-row gap-2">
-								<User className="size-6 text-muted-foreground self-center" />
-								Account
+								<User className="size-6 text-easyti-primary self-center" />
+								Conta
 							</CardTitle>
 							<CardDescription>
-								Change the details of your profile here.
+								Altere os detalhes do seu perfil aqui.
 							</CardDescription>
 						</div>
 
 						{!data?.user.twoFactorEnabled ? <Enable2FA /> : <Configure2FA />}
 					</CardHeader>
 
-					<CardContent className="space-y-2 py-8 border-t">
+					<CardContent className="space-y-4 py-8 border-t">
 						{isError && <AlertBlock type="error">{error?.message}</AlertBlock>}
 						{isPending ? (
 							<div className="flex flex-row gap-2 items-center justify-center text-sm text-muted-foreground min-h-[35vh]">
@@ -444,8 +444,8 @@ export const ProfileForm = () => {
 										</div>
 
 										<div className="flex items-center justify-end gap-2">
-											<Button type="submit" isLoading={isUpdating}>
-												Save
+											<Button type="submit" isLoading={isUpdating} className="bg-easyti-primary text-white hover:bg-easyti-primary/90">
+												Salvar
 											</Button>
 										</div>
 									</form>

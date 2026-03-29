@@ -3,11 +3,11 @@ import {
 	ExternalLinkIcon,
 	GitBranch,
 	ImportIcon,
-	Loader2,
 	Trash2,
 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 import {
 	BitbucketIcon,
 	GiteaIcon,
@@ -24,6 +24,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { PageTransition } from "@/components/atoms/animations/motion";
 import { api } from "@/utils/api";
 import { useUrl } from "@/utils/hooks/use-url";
 import { AddBitbucketProvider } from "./bitbucket/add-bitbucket-provider";
@@ -53,23 +54,26 @@ export const ShowGitProviders = () => {
 	};
 
 	return (
-		<div className="w-full">
-			<Card className="h-full bg-sidebar p-2.5 rounded-xl max-w-5xl mx-auto">
-				<div className="rounded-xl bg-background shadow-md ">
+		<PageTransition className="w-full">
+			<Card className="h-full bg-sidebar p-2.5 rounded-xl max-w-5xl mx-auto border-none shadow-none">
+				<div className="rounded-xl bg-background shadow-md border-t-4 border-t-easyti-primary">
 					<CardHeader className="">
 						<CardTitle className="text-xl flex flex-row gap-2">
-							<GitBranch className="size-6 text-muted-foreground self-center" />
-							Git Providers
+							<GitBranch className="size-6 text-easyti-primary self-center" />
+							Provedores Git
 						</CardTitle>
 						<CardDescription>
-							Connect your Git provider for authentication.
+							Conecte seu provedor Git para autenticação e implantações diretas.
 						</CardDescription>
 					</CardHeader>
-					<CardContent className="space-y-2 py-8 border-t">
+					<CardContent className="space-y-4 py-8 border-t">
 						{isPending ? (
 							<div className="flex flex-row gap-2 items-center justify-center text-sm text-muted-foreground min-h-[25vh]">
-								<span>Loading...</span>
-								<Loader2 className="animate-spin size-4" />
+								<motion.div
+									animate={{ rotate: 360 }}
+									transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+									className="size-8 rounded-full border-b-2 border-easyti-primary"
+								/>
 							</div>
 						) : (
 							<>
@@ -161,7 +165,7 @@ export const ShowGitProviders = () => {
 																{isBitbucket &&
 																gitProvider.bitbucket?.appPassword &&
 																!gitProvider.bitbucket?.apiToken ? (
-																	<Badge variant="yellow">Deprecated</Badge>
+																	<Badge variant="yellow">Obsoleto</Badge>
 																) : null}
 
 																{!haveGithubRequirements && isGithub && (
@@ -170,7 +174,7 @@ export const ShowGitProviders = () => {
 																			variant="outline"
 																			className="text-xs"
 																		>
-																			Action Required
+																			Ação Necessária
 																		</Badge>
 																		<Link
 																			href={`${gitProvider?.github?.githubAppName}/installations/new?state=gh_setup:${gitProvider?.github.githubId}`}
@@ -203,7 +207,7 @@ export const ShowGitProviders = () => {
 																			variant="outline"
 																			className="text-xs"
 																		>
-																			Action Required
+																			Ação Necessária
 																		</Badge>
 																		<Link
 																			href={getGitlabUrl(
@@ -249,8 +253,8 @@ export const ShowGitProviders = () => {
 																)}
 
 																<DialogAction
-																	title="Delete Git Provider"
-																	description="Are you sure you want to delete this Git Provider?"
+																	title="Excluir Provedor Git"
+																	description="Tem certeza de que deseja excluir este Provedor Git?"
 																	type="destructive"
 																	onClick={async () => {
 																		await mutateAsync({
@@ -258,13 +262,13 @@ export const ShowGitProviders = () => {
 																		})
 																			.then(() => {
 																				toast.success(
-																					"Git Provider deleted successfully",
+																					"Provedor Git excluído com sucesso",
 																				);
 																				refetch();
 																			})
 																			.catch(() => {
 																				toast.error(
-																					"Error deleting Git Provider",
+																					"Erro ao excluir Provedor Git",
 																				);
 																			});
 																	}}
@@ -275,7 +279,7 @@ export const ShowGitProviders = () => {
 																		className="group hover:bg-red-500/10"
 																		isLoading={isRemoving}
 																	>
-																		<Trash2 className="size-4 text-primary group-hover:text-red-500" />
+																		<Trash2 className="size-4 text-easyti-primary group-hover:text-red-500" />
 																	</Button>
 																</DialogAction>
 															</div>
