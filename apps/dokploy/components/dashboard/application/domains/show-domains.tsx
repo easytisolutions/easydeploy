@@ -142,10 +142,10 @@ export const ShowDomains = ({ id, type }: Props) => {
 
 	return (
 		<div className="flex w-full flex-col gap-5 ">
-			<Card className="bg-background">
+			<Card className="bg-easyti-primary/5">
 				<CardHeader className="flex flex-row items-center flex-wrap gap-4 justify-between">
 					<div className="flex flex-col gap-1">
-						<CardTitle className="text-xl">Domains</CardTitle>
+						<CardTitle className="text-xl">Domínios</CardTitle>
 						<CardDescription>
 							Domains are used to access to the application
 						</CardDescription>
@@ -237,7 +237,7 @@ export const ShowDomains = ({ id, type }: Props) => {
 														{canDeleteDomain && (
 															<DialogAction
 																title="Delete Domain"
-																description="Are you sure you want to delete this domain?"
+																description="Tem certeza que deseja deletar este domínio?"
 																type="destructive"
 																onClick={async () => {
 																	await deleteDomain({

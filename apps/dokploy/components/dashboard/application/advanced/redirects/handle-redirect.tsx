@@ -272,7 +272,7 @@ export const HandleRedirect = ({
 							form="hook-form-add-redirect"
 							type="submit"
 						>
-							{redirectId ? "Update" : "Create"}
+							{redirectId ? "Atualizar" : "Create"}
 						</Button>
 					</DialogFooter>
 				</Form>

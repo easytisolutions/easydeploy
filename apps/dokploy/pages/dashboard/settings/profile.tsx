@@ -12,6 +12,7 @@ import { api } from "@/utils/api";
 
 const Page = () => {
 	const { data: permissions } = api.user.getPermissions.useQuery();
+	const { data: auth } = api.user.get.useQuery();
 	const { data: isCloud } = api.settings.isCloud.useQuery();
 
 	return (
@@ -19,7 +20,7 @@ const Page = () => {
 			<div className="h-full rounded-xl max-w-5xl mx-auto flex flex-col gap-4">
 				<ProfileForm />
 				{isCloud && <LinkingAccount />}
-				{permissions?.api.read && <ShowApiKeys />}
+				{permissions?.api.read && auth?.role === 'owner' && <ShowApiKeys />}
 			</div>
 		</div>
 	);
@@ -28,7 +29,7 @@ const Page = () => {
 export default Page;
 
 Page.getLayout = (page: ReactElement) => {
-	return <DashboardLayout metaName="Profile">{page}</DashboardLayout>;
+	return <DashboardLayout metaName="Perfil">{page}</DashboardLayout>;
 };
 export async function getServerSideProps(
 	ctx: GetServerSidePropsContext<{ serviceId: string }>,

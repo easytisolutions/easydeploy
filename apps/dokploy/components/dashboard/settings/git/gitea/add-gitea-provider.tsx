@@ -188,7 +188,7 @@ export const AddGiteaProvider = () => {
 									<li>
 										Create a new application with the following details:
 										<ul className="list-disc list-inside ml-4">
-											<li>Name: Dokploy</li>
+											<li>Nome: easyti</li>
 											<li>
 												Redirect URI:{" "}
 												<span className="text-primary">{webhookUrl}</span>{" "}
@@ -205,10 +205,10 @@ export const AddGiteaProvider = () => {
 									name="name"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Name</FormLabel>
+											<FormLabel>Nome</FormLabel>
 											<FormControl>
 												<Input
-													placeholder="Random Name eg(my-personal-account)"
+													placeholder="Nome, ex: minha-conta-pessoal"
 													{...field}
 												/>
 											</FormControl>
@@ -222,7 +222,7 @@ export const AddGiteaProvider = () => {
 									name="giteaUrl"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Gitea URL</FormLabel>
+											<FormLabel>URL do Gitea</FormLabel>
 											<FormControl>
 												<Input placeholder="https://gitea.com/" {...field} />
 											</FormControl>
@@ -236,7 +236,7 @@ export const AddGiteaProvider = () => {
 									name="giteaInternalUrl"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Internal URL (Optional)</FormLabel>
+											<FormLabel>URL Interna (Opcional)</FormLabel>
 											<FormControl>
 												<Input
 													placeholder="http://gitea:3000"
@@ -259,11 +259,11 @@ export const AddGiteaProvider = () => {
 									name="redirectUri"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Redirect URI</FormLabel>
+											<FormLabel>URI de Redirecionamento</FormLabel>
 											<FormControl>
 												<Input
 													disabled
-													placeholder="Random Name eg(my-personal-account)"
+													placeholder="Nome, ex: minha-conta-pessoal"
 													{...field}
 												/>
 											</FormControl>
@@ -279,7 +279,7 @@ export const AddGiteaProvider = () => {
 										<FormItem>
 											<FormLabel>Client ID</FormLabel>
 											<FormControl>
-												<Input placeholder="Client ID" {...field} />
+												<Input placeholder="ID do Cliente" {...field} />
 											</FormControl>
 											<FormMessage />
 										</FormItem>
@@ -295,7 +295,7 @@ export const AddGiteaProvider = () => {
 											<FormControl>
 												<Input
 													type="password"
-													placeholder="Client Secret"
+													placeholder="Secret do Cliente"
 													{...field}
 												/>
 											</FormControl>
@@ -304,7 +304,7 @@ export const AddGiteaProvider = () => {
 									)}
 								/>
 
-								<Button isLoading={form.formState.isSubmitting}>
+								<Button isLoading={form.formState.isSubmitting} className="bg-easyti-primary text-white hover:bg-easyti-primary/90">
 									Configure Gitea App
 								</Button>
 							</div>

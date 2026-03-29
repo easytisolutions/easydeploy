@@ -270,7 +270,7 @@ export const HandlePorts = ({
 							form="hook-form-add-port"
 							type="submit"
 						>
-							{portId ? "Update" : "Create"}
+							{portId ? "Atualizar" : "Create"}
 						</Button>
 					</DialogFooter>
 				</Form>

@@ -536,7 +536,7 @@ export function ShowDeploymentsTable() {
 											>
 												<div className="flex flex-col min-h-[45vh] items-center justify-center gap-2 text-muted-foreground">
 													<Rocket className="size-8" />
-													<p className="font-medium">No deployments found</p>
+													<p className="font-medium">Nenhum deploy encontrado</p>
 													<p className="text-sm">
 														Deployments from applications and compose will
 														appear here.

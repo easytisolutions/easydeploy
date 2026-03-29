@@ -119,7 +119,7 @@ export const AddBitbucketProvider = () => {
 										target="_blank"
 										className="inline-flex items-center gap-1 ml-1"
 									>
-										<span>Bitbucket settings</span>
+										<span>Configurações do Bitbucket</span>
 										<ExternalLink className="w-fit text-primary size-4" />
 									</Link>
 								</div>
@@ -139,7 +139,7 @@ export const AddBitbucketProvider = () => {
 								</p>
 
 								<ul className="list-disc list-inside ml-4 text-sm text-muted-foreground">
-									<li>read:repository:bitbucket</li>
+									<li>read:repository:bitbucket (Leitura de repositório)</li>
 									<li>read:pullrequest:bitbucket</li>
 									<li>read:webhook:bitbucket</li>
 									<li>read:workspace:bitbucket</li>
@@ -151,10 +151,10 @@ export const AddBitbucketProvider = () => {
 									name="name"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Name</FormLabel>
+											<FormLabel>Nome</FormLabel>
 											<FormControl>
 												<Input
-													placeholder="Your Bitbucket Provider, eg: my-personal-account"
+													placeholder="Seu provedor Bitbucket, ex: minha-conta-pessoal"
 													{...field}
 												/>
 											</FormControl>
@@ -167,10 +167,10 @@ export const AddBitbucketProvider = () => {
 									name="username"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Bitbucket Username</FormLabel>
+											<FormLabel>Usuário Bitbucket</FormLabel>
 											<FormControl>
 												<Input
-													placeholder="Your Bitbucket username"
+													placeholder="Seu usuário Bitbucket"
 													{...field}
 												/>
 											</FormControl>
@@ -184,9 +184,9 @@ export const AddBitbucketProvider = () => {
 									name="email"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Bitbucket Email</FormLabel>
+											<FormLabel>Email Bitbucket</FormLabel>
 											<FormControl>
-												<Input placeholder="Your Bitbucket email" {...field} />
+												<Input placeholder="Seu email Bitbucket" {...field} />
 											</FormControl>
 											<FormMessage />
 										</FormItem>
@@ -198,10 +198,10 @@ export const AddBitbucketProvider = () => {
 									name="apiToken"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>API Token</FormLabel>
+											<FormLabel>Token de API</FormLabel>
 											<FormControl>
 												<Input
-													placeholder="Paste your Bitbucket API token"
+													placeholder="Cole seu token de API do Bitbucket"
 													{...field}
 												/>
 											</FormControl>
@@ -215,10 +215,10 @@ export const AddBitbucketProvider = () => {
 									name="workspaceName"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Workspace Name (optional)</FormLabel>
+											<FormLabel>Nome do Workspace (opcional)</FormLabel>
 											<FormControl>
 												<Input
-													placeholder="For organization accounts"
+													placeholder="Para contas de organização"
 													{...field}
 												/>
 											</FormControl>
@@ -227,7 +227,7 @@ export const AddBitbucketProvider = () => {
 									)}
 								/>
 
-								<Button isLoading={form.formState.isSubmitting}>
+								<Button isLoading={form.formState.isSubmitting} className="bg-easyti-primary text-white hover:bg-easyti-primary/90">
 									Configure Bitbucket
 								</Button>
 							</div>

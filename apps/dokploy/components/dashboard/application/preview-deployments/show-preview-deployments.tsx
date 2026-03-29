@@ -75,10 +75,10 @@ export const ShowPreviewDeployments = ({ applicationId }: Props) => {
 	};
 
 	return (
-		<Card className="bg-background">
+		<Card className="bg-easyti-primary/5">
 			<CardHeader className="flex flex-row items-center justify-between flex-wrap gap-2">
 				<div className="flex flex-col gap-2">
-					<CardTitle className="text-xl">Preview Deployments</CardTitle>
+					<CardTitle className="text-xl">Deploys de Preview</CardTitle>
 					<CardDescription>See all the preview deployments</CardDescription>
 				</div>
 				{data?.isPreviewDeploymentsActive && (

@@ -119,7 +119,7 @@ export const HandleSecurity = ({
 				<DialogHeader>
 					<DialogTitle>Security</DialogTitle>
 					<DialogDescription>
-						{securityId ? "Update" : "Add"} security to your application
+						{securityId ? "Atualizar" : "Add"} security to your application
 					</DialogDescription>
 				</DialogHeader>
 				{isError && <AlertBlock type="error">{error?.message}</AlertBlock>}
@@ -168,7 +168,7 @@ export const HandleSecurity = ({
 							form="hook-form-add-security"
 							type="submit"
 						>
-							{securityId ? "Update" : "Create"}
+							{securityId ? "Atualizar" : "Create"}
 						</Button>
 					</DialogFooter>
 				</Form>

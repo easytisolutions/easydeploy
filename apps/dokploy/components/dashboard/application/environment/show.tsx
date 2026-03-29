@@ -119,7 +119,7 @@ export const ShowEnvironment = ({ applicationId }: Props) => {
 	}, [form, onSubmit, isPending]);
 
 	return (
-		<Card className="bg-background px-6 pb-6">
+		<Card className="bg-easyti-primary/5 px-6 pb-6">
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}

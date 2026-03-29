@@ -219,7 +219,7 @@ export const HandleRegistry = ({ registryId }: Props) => {
 						<PenBoxIcon className="size-3.5  text-primary group-hover:text-blue-500" />
 					</Button>
 				) : (
-					<Button className="cursor-pointer space-x-3">
+					<Button className="bg-easyti-primary text-white hover:bg-easyti-primary/90 cursor-pointer space-x-3">
 						<PlusIcon className="h-4 w-4" />
 						Add Registry
 					</Button>
@@ -227,7 +227,7 @@ export const HandleRegistry = ({ registryId }: Props) => {
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-2xl">
 				<DialogHeader>
-					<DialogTitle>Add a external registry</DialogTitle>
+					<DialogTitle>Adicionar um registry externo</DialogTitle>
 					<DialogDescription>
 						Fill the next fields to add a external registry.
 					</DialogDescription>
@@ -254,7 +254,7 @@ export const HandleRegistry = ({ registryId }: Props) => {
 								name="registryName"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Registry Name</FormLabel>
+										<FormLabel>Nome do Registry</FormLabel>
 										<FormControl>
 											<Input placeholder="Registry Name" {...field} />
 										</FormControl>
@@ -270,7 +270,7 @@ export const HandleRegistry = ({ registryId }: Props) => {
 								name="username"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Username</FormLabel>
+										<FormLabel>Usuário</FormLabel>
 										<FormControl>
 											<Input
 												placeholder="Username"
@@ -290,7 +290,7 @@ export const HandleRegistry = ({ registryId }: Props) => {
 								name="password"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Password{registryId && " (Optional)"}</FormLabel>
+										<FormLabel>Senha{registryId && " (Opcional)"}</FormLabel>
 										{registryId && (
 											<FormDescription>
 												Leave blank to keep existing password. Enter new
@@ -321,7 +321,7 @@ export const HandleRegistry = ({ registryId }: Props) => {
 								name="imagePrefix"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Image Prefix</FormLabel>
+										<FormLabel>Prefixo da Imagem</FormLabel>
 										<FormControl>
 											<Input {...field} placeholder="Image Prefix" />
 										</FormControl>
@@ -337,7 +337,7 @@ export const HandleRegistry = ({ registryId }: Props) => {
 								name="registryUrl"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Registry URL</FormLabel>
+										<FormLabel>URL do Registry</FormLabel>
 										<FormDescription>
 											Enter only the hostname (e.g.,
 											aws_account_id.dkr.ecr.us-west-2.amazonaws.com).
@@ -361,7 +361,7 @@ export const HandleRegistry = ({ registryId }: Props) => {
 								name="serverId"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Server {!isCloud && "(Optional)"}</FormLabel>
+										<FormLabel>Servidor {!isCloud && "(Opcional)"}</FormLabel>
 										<FormDescription>
 											{!isCloud ? (
 												<>

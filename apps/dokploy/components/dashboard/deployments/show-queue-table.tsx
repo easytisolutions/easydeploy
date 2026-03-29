@@ -104,15 +104,15 @@ export function ShowQueueTable(props: { embedded?: boolean }) {
 					<Table>
 						<TableHeader>
 							<TableRow>
-								<TableHead>Job ID</TableHead>
-								<TableHead>Label</TableHead>
-								<TableHead>Type</TableHead>
-								<TableHead>State</TableHead>
-								<TableHead>Added</TableHead>
-								<TableHead>Processed</TableHead>
-								<TableHead>Finished</TableHead>
-								<TableHead>Error</TableHead>
-								<TableHead className="w-[100px]">Actions</TableHead>
+								<TableHead>ID do Job</TableHead>
+								<TableHead>Rótulo</TableHead>
+								<TableHead>Tipo</TableHead>
+								<TableHead>Estado</TableHead>
+								<TableHead>Adicionado</TableHead>
+								<TableHead>Processado</TableHead>
+								<TableHead>Finalizado</TableHead>
+								<TableHead>Erro</TableHead>
+								<TableHead className="w-[100px]">Ações</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>

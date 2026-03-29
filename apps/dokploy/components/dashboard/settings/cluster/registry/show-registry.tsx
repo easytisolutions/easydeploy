@@ -24,11 +24,11 @@ export const ShowRegistry = () => {
 				<div className="rounded-xl bg-background shadow-md ">
 					<CardHeader className="">
 						<CardTitle className="text-xl flex flex-row gap-2">
-							<Package className="size-6 text-muted-foreground self-center" />
+							<Package className="size-6 text-easyti-primary self-center" />
 							Docker Registry
 						</CardTitle>
 						<CardDescription>
-							Manage your Docker Registry configurations
+							Gerencie as configurações do seu Docker Registry
 						</CardDescription>
 					</CardHeader>
 					<CardContent className="space-y-2 py-8 border-t">
@@ -76,8 +76,8 @@ export const ShowRegistry = () => {
 
 															{permissions?.registry.delete && (
 																<DialogAction
-																	title="Delete Registry"
-																	description="Are you sure you want to delete this registry configuration?"
+																	title="Excluir Registry"
+																	description="Tem certeza de que deseja excluir esta configuração de registry?"
 																	type="destructive"
 																	onClick={async () => {
 																		await mutateAsync({

@@ -200,7 +200,7 @@ export const ShowVolumeBackups = ({
 										/>
 										<DialogAction
 											title="Delete Volume Backup"
-											description="Are you sure you want to delete this volume backup?"
+											description="Tem certeza que deseja deletar este backup de volume?"
 											type="destructive"
 											onClick={async () => {
 												await deleteVolumeBackup({

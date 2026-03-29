@@ -147,10 +147,10 @@ export const EditBitbucketProvider = ({ bitbucketId }: Props) => {
 									name="name"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Name</FormLabel>
+											<FormLabel>Nome</FormLabel>
 											<FormControl>
 												<Input
-													placeholder="Random Name eg(my-personal-account)"
+													placeholder="Nome, ex: minha-conta-pessoal"
 													{...field}
 												/>
 											</FormControl>
@@ -163,10 +163,10 @@ export const EditBitbucketProvider = ({ bitbucketId }: Props) => {
 									name="username"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Bitbucket Username</FormLabel>
+											<FormLabel>Usuário Bitbucket</FormLabel>
 											<FormControl>
 												<Input
-													placeholder="Your Bitbucket username"
+													placeholder="Seu usuário Bitbucket"
 													{...field}
 												/>
 											</FormControl>
@@ -201,7 +201,7 @@ export const EditBitbucketProvider = ({ bitbucketId }: Props) => {
 											<FormLabel>Workspace Name (Optional)</FormLabel>
 											<FormControl>
 												<Input
-													placeholder="For organization accounts"
+													placeholder="Para contas de organização"
 													{...field}
 												/>
 											</FormControl>
@@ -277,7 +277,7 @@ export const EditBitbucketProvider = ({ bitbucketId }: Props) => {
 									>
 										Test Connection
 									</Button>
-									<Button type="submit" isLoading={form.formState.isSubmitting}>
+									<Button type="submit" isLoading={form.formState.isSubmitting} className="bg-easyti-primary text-white hover:bg-easyti-primary/90">
 										Update
 									</Button>
 								</div>

@@ -207,7 +207,7 @@ export const EditGiteaProvider = ({ giteaId }: Props) => {
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Name</FormLabel>
+									<FormLabel>Nome</FormLabel>
 									<FormControl>
 										<Input
 											placeholder="My Gitea"
@@ -224,7 +224,7 @@ export const EditGiteaProvider = ({ giteaId }: Props) => {
 							name="giteaUrl"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Gitea URL</FormLabel>
+									<FormLabel>URL do Gitea</FormLabel>
 									<FormControl>
 										<Input placeholder="https://gitea.example.com" {...field} />
 									</FormControl>
@@ -237,7 +237,7 @@ export const EditGiteaProvider = ({ giteaId }: Props) => {
 							name="giteaInternalUrl"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Internal URL (Optional)</FormLabel>
+									<FormLabel>URL Interna (Opcional)</FormLabel>
 									<FormControl>
 										<Input
 											placeholder="http://gitea:3000"
@@ -261,7 +261,7 @@ export const EditGiteaProvider = ({ giteaId }: Props) => {
 								<FormItem>
 									<FormLabel>Client ID</FormLabel>
 									<FormControl>
-										<Input placeholder="Client ID" {...field} />
+										<Input placeholder="ID do Cliente" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -276,7 +276,7 @@ export const EditGiteaProvider = ({ giteaId }: Props) => {
 									<FormControl>
 										<Input
 											type="password"
-											placeholder="Client Secret"
+											placeholder="Secret do Cliente"
 											{...field}
 										/>
 									</FormControl>

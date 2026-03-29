@@ -231,7 +231,7 @@ export const SaveGitlabProvider = ({ applicationId }: Props) => {
 							render={({ field }) => (
 								<FormItem className="md:col-span-2 flex flex-col">
 									<div className="flex items-center justify-between">
-										<FormLabel>Repository</FormLabel>
+										<FormLabel>Repositório</FormLabel>
 										{field.value.gitlabPathNamespace && (
 											<Link
 												href={`${gitlabUrl}/${field.value.gitlabPathNamespace}`}

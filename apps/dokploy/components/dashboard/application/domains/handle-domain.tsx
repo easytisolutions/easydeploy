@@ -252,7 +252,7 @@ export const AddDomain = ({ id, type, domainId = "", children }: Props) => {
 	const dictionary = {
 		success: domainId ? "Domain Updated" : "Domain Created",
 		error: domainId ? "Error updating the domain" : "Error creating the domain",
-		submit: domainId ? "Update" : "Create",
+		submit: domainId ? "Atualizar" : "Create",
 		dialogDescription: domainId
 			? "In this section you can edit a domain"
 			: "In this section you can add domains",

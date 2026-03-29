@@ -95,7 +95,7 @@ export const ShowDockerLogs = ({ appName, serverId }: Props) => {
 		option === "native" ? containers?.length : services?.length;
 
 	return (
-		<Card className="bg-background">
+		<Card className="bg-easyti-primary/5">
 			<CardHeader>
 				<CardTitle className="text-xl">Logs</CardTitle>
 				<CardDescription>

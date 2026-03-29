@@ -185,9 +185,9 @@ export const ProfileForm = () => {
 												name="firstName"
 												render={({ field }) => (
 													<FormItem>
-														<FormLabel>First Name</FormLabel>
+														<FormLabel>Nome</FormLabel>
 														<FormControl>
-															<Input placeholder="John" {...field} />
+															<Input placeholder="João" {...field} />
 														</FormControl>
 														<FormMessage />
 													</FormItem>
@@ -198,9 +198,9 @@ export const ProfileForm = () => {
 												name="lastName"
 												render={({ field }) => (
 													<FormItem>
-														<FormLabel>Last Name</FormLabel>
+														<FormLabel>Sobrenome</FormLabel>
 														<FormControl>
-															<Input placeholder="Doe" {...field} />
+															<Input placeholder="Silva" {...field} />
 														</FormControl>
 														<FormMessage />
 													</FormItem>
@@ -224,11 +224,11 @@ export const ProfileForm = () => {
 												name="currentPassword"
 												render={({ field }) => (
 													<FormItem>
-														<FormLabel>Current Password</FormLabel>
+														<FormLabel>Senha Atual</FormLabel>
 														<FormControl>
 															<Input
 																type="password"
-																placeholder="Current Password"
+																placeholder="Senha Atual"
 																{...field}
 																value={field.value || ""}
 															/>
@@ -242,11 +242,11 @@ export const ProfileForm = () => {
 												name="password"
 												render={({ field }) => (
 													<FormItem>
-														<FormLabel>Password</FormLabel>
+														<FormLabel>Nova Senha</FormLabel>
 														<FormControl>
 															<Input
 																type="password"
-																placeholder="Password"
+																placeholder="Nova Senha"
 																{...field}
 																value={field.value || ""}
 															/>
@@ -422,7 +422,7 @@ export const ProfileForm = () => {
 													render={({ field }) => (
 														<FormItem className="flex flex-row items-center justify-between p-3 mt-4 border rounded-lg shadow-sm">
 															<div className="space-y-0.5">
-																<FormLabel>Allow Impersonation</FormLabel>
+																<FormLabel>Permitir representação</FormLabel>
 																<FormDescription>
 																	Enable this option to allow Dokploy Cloud
 																	administrators to temporarily access your

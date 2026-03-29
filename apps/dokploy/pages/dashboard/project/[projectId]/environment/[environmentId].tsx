@@ -376,7 +376,7 @@ const EnvironmentPage = (
 	});
 	const { data: allProjects } = api.project.all.useQuery();
 
-	const [isMoveDialogOpen, setIsMoveDialogOpen] = useState(false);
+	const [isMoverDialogOpen, setIsMoverDialogOpen] = useState(false);
 	const [selectedTargetProject, setSelectedTargetProject] =
 		useState<string>("");
 	const [selectedTargetEnvironment, setSelectedTargetEnvironment] =
@@ -595,7 +595,7 @@ const EnvironmentPage = (
 		setIsBulkActionLoading(false);
 	};
 
-	const handleBulkMove = async () => {
+	const handleBulkMover = async () => {
 		if (!selectedTargetProject) {
 			toast.error("Please select a target project");
 			return;
@@ -673,7 +673,7 @@ const EnvironmentPage = (
 		}
 		setSelectedServices([]);
 		setIsDropdownOpen(false);
-		setIsMoveDialogOpen(false);
+		setIsMoverDialogOpen(false);
 		setIsBulkActionLoading(false);
 		// Reset move dialog state
 		setSelectedTargetProject("");
@@ -914,39 +914,9 @@ const EnvironmentPage = (
 							<div className="flex flex-row gap-4 flex-wrap justify-between items-center">
 								<div className="flex flex-row gap-4 flex-wrap">
 									<ProjectEnvironment projectId={projectId}>
-										<Button variant="outline">Project Environment</Button>
+										<Button variant="outline">Ambiente do Projeto</Button>
 									</ProjectEnvironment>
-									{permissions?.service.create && projectServicesCount === 0 && (
-										<DropdownMenu>
-											<DropdownMenuTrigger asChild>
-												<Button className="bg-easyti-primary hover:bg-easyti-primary-dark text-white">
-													<PlusIcon className="h-4 w-4 mr-1" />
-													Novo Serviço
-												</Button>
-											</DropdownMenuTrigger>
-											<DropdownMenuContent
-												className="w-[200px] space-y-2"
-												align="end"
-											>
-												<DropdownMenuLabel className="text-sm font-normal">
-													Ações
-												</DropdownMenuLabel>
-												<DropdownMenuSeparator />
-												<AddApplication
-													projectName={projectData?.name}
-													environmentId={environmentId}
-												/>
-												<AddDatabase
-													projectName={projectData?.name}
-													environmentId={environmentId}
-												/>
-												<AddCompose
-													projectName={projectData?.name}
-													environmentId={environmentId}
-												/>
-											</DropdownMenuContent>
-										</DropdownMenu>
-									)}
+									
 								</div>
 							</div>
 						</div>
@@ -982,14 +952,14 @@ const EnvironmentPage = (
 													disabled={selectedServices.length === 0}
 													isLoading={isBulkActionLoading}
 												>
-													Bulk Actions
+													Ações em Massa
 												</Button>
 											</DropdownMenuTrigger>
 											<DropdownMenuContent align="end">
 												<DropdownMenuLabel>Actions</DropdownMenuLabel>
 												<DropdownMenuSeparator />
 												<DialogAction
-													title="Start Services"
+													title="Iniciar Serviços"
 													description={`Are you sure you want to start ${selectedServices.length} services?`}
 													type="default"
 													onClick={handleBulkStart}
@@ -1020,7 +990,7 @@ const EnvironmentPage = (
 													</Button>
 												</DialogAction>
 												<DialogAction
-													title="Stop Services"
+													title="Parar Serviços"
 													description={`Are you sure you want to stop ${selectedServices.length} services?`}
 													type="destructive"
 													onClick={handleBulkStop}
@@ -1036,7 +1006,7 @@ const EnvironmentPage = (
 												{permissions?.service.delete && (
 													<>
 														<DialogAction
-															title="Delete Services"
+															title="Excluir Serviços"
 															description={
 																<div className="space-y-3">
 																	<p>
@@ -1082,8 +1052,8 @@ const EnvironmentPage = (
 												)}
 
 												<Dialog
-													open={isMoveDialogOpen}
-													onOpenChange={setIsMoveDialogOpen}
+													open={isMoverDialogOpen}
+													onOpenChange={setIsMoverDialogOpen}
 												>
 													<DialogTrigger asChild>
 														<Button
@@ -1091,12 +1061,12 @@ const EnvironmentPage = (
 															className="w-full justify-start"
 														>
 															<FolderInput className="mr-2 h-4 w-4" />
-															Move
+															Mover
 														</Button>
 													</DialogTrigger>
 													<DialogContent>
 														<DialogHeader>
-															<DialogTitle>Move Services</DialogTitle>
+															<DialogTitle>Moverr Serviços</DialogTitle>
 															<DialogDescription>
 																Select the target project and environment to
 																move {selectedServices.length} services
@@ -1188,15 +1158,15 @@ const EnvironmentPage = (
 															<Button
 																variant="outline"
 																onClick={() => {
-																	setIsMoveDialogOpen(false);
+																	setIsMoverDialogOpen(false);
 																	setSelectedTargetProject("");
 																	setSelectedTargetEnvironment("");
 																}}
 															>
-																Cancel
+																Cancelar
 															</Button>
 															<Button
-																onClick={handleBulkMove}
+																onClick={handleBulkMover}
 																isLoading={isBulkActionLoading}
 																disabled={
 																	allProjects?.length === 0 ||
@@ -1204,7 +1174,7 @@ const EnvironmentPage = (
 																	!selectedTargetEnvironment
 																}
 															>
-																Move Services
+																Moverr Serviços
 															</Button>
 														</DialogFooter>
 													</DialogContent>
@@ -1217,7 +1187,7 @@ const EnvironmentPage = (
 												>
 													<DialogContent>
 														<DialogHeader>
-															<DialogTitle>Delete Services</DialogTitle>
+															<DialogTitle>Excluir Serviços</DialogTitle>
 															<DialogDescription>
 																Are you sure you want to delete{" "}
 																{selectedServices.length} service
@@ -1299,7 +1269,7 @@ const EnvironmentPage = (
 																	setDeleteVolumes(false); // Reset checkbox
 																}}
 															>
-																Cancel
+																Cancelar
 															</Button>
 															<Button
 																variant="destructive"
@@ -1310,7 +1280,7 @@ const EnvironmentPage = (
 																}}
 																disabled={isBulkActionLoading}
 															>
-																Delete Services
+																Excluir Serviços
 															</Button>
 														</DialogFooter>
 													</DialogContent>
@@ -1322,7 +1292,7 @@ const EnvironmentPage = (
 									<div className="flex flex-col gap-2 lg:flex-row lg:gap-4 lg:items-center">
 										<div className="w-full relative">
 											<FocusShortcutInput
-												placeholder="Filter services..."
+												placeholder="Filtrar serviços..."
 												value={searchQuery}
 												onChange={(e) => setSearchQuery(e.target.value)}
 												className="pr-10"
@@ -1331,22 +1301,22 @@ const EnvironmentPage = (
 										</div>
 										<Select value={sortBy} onValueChange={setSortBy}>
 											<SelectTrigger className="lg:w-[280px]">
-												<SelectValue placeholder="Sort by..." />
+												<SelectValue placeholder="Ordenar por..." />
 											</SelectTrigger>
 											<SelectContent>
 												<SelectItem value="lastDeploy-desc">
-													Recently deployed
+													Recentemente implantado
 												</SelectItem>
 												<SelectItem value="createdAt-desc">
-													Newest first
+													Mais recentes primeiro
 												</SelectItem>
 												<SelectItem value="createdAt-asc">
-													Oldest first
+													Mais antigos primeiro
 												</SelectItem>
-												<SelectItem value="name-asc">Name (A-Z)</SelectItem>
-												<SelectItem value="name-desc">Name (Z-A)</SelectItem>
-												<SelectItem value="type-asc">Type (A-Z)</SelectItem>
-												<SelectItem value="type-desc">Type (Z-A)</SelectItem>
+												<SelectItem value="name-asc">Nome (A-Z)</SelectItem>
+												<SelectItem value="name-desc">Nome (Z-A)</SelectItem>
+												<SelectItem value="type-asc">Tipo (A-Z)</SelectItem>
+												<SelectItem value="type-desc">Tipo (Z-A)</SelectItem>
 											</SelectContent>
 										</Select>
 										<Popover open={openCombobox} onOpenChange={setOpenCombobox}>
@@ -1454,25 +1424,12 @@ const EnvironmentPage = (
 											<span className="text-center font-medium text-muted-foreground">
 												Nenhum serviço adicionado ainda.
 											</span>
-											{!projectServicesCount && permissions?.service.create && (
-												<Button
-													className="bg-easyti-primary hover:bg-easyti-primary-dark text-white"
-													onClick={() => {
-														const trigger = document.querySelector('[data-state="closed"]');
-														if (trigger instanceof HTMLElement) {
-															trigger.click();
-														}
-													}}
-												>
-													Criar Serviço
-												</Button>
-											)}
 										</div>
 									) : filteredServices.length === 0 ? (
 										<div className="flex h-[70vh] w-full flex-col items-center justify-center">
 											<Search className="size-8 self-center text-muted-foreground" />
 											<span className="text-center font-medium text-muted-foreground">
-												No services found with the current filters
+												Nenhum serviço encontrado com os filtros atuais
 											</span>
 											<span className="text-sm text-muted-foreground">
 												Try adjusting your search or filters

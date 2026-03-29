@@ -222,7 +222,7 @@ export const SaveBitbucketProvider = ({ applicationId }: Props) => {
 							render={({ field }) => (
 								<FormItem className="md:col-span-2 flex flex-col">
 									<div className="flex items-center justify-between">
-										<FormLabel>Repository</FormLabel>
+										<FormLabel>Repositório</FormLabel>
 										{field.value.owner && field.value.repo && (
 											<Link
 												href={`https://bitbucket.org/${field.value.owner}/${field.value.slug || field.value.repo}`}

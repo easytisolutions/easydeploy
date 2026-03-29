@@ -98,7 +98,7 @@ const Service = (
 		projectId: data?.environment?.project?.projectId || "",
 	});
 	const { config: whitelabeling } = useWhitelabeling();
-	const appName = whitelabeling?.appName || "Dokploy";
+	const appName = whitelabeling?.appName || "EasyTI";
 	const environmentDropdownItems =
 		environments?.map((env) => ({
 			name: env.name,
@@ -117,7 +117,7 @@ const Service = (
 			</Head>
 			<div className="w-full">
 				<Card className="h-full bg-sidebar p-2.5 rounded-xl w-full border-none shadow-none">
-					<div className="rounded-xl bg-background shadow-md border-t-4 border-t-easyti-primary">
+					<div className="rounded-xl bg-easyti-primary/5 shadow-md border-t-4 border-t-easyti-primary">
 						<CardHeader className="flex flex-row justify-between items-center">
 							<div className="flex flex-col gap-1">
 								<CardTitle className="text-xl flex flex-row gap-2 items-center">
@@ -158,7 +158,7 @@ const Service = (
 													: "destructive"
 										}
 									>
-										{data?.server?.name || "Servidor Dokploy"}
+										{data?.server?.name || "Servidor EasyTI"}
 									</Badge>
 									{data?.server?.serverStatus === "inactive" && (
 										<TooltipProvider delayDuration={0}>

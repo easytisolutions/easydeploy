@@ -147,10 +147,10 @@ export const ShowDeployments = ({
 	}, []);
 
 	return (
-		<Card className="bg-background border-none">
+		<Card className="bg-easyti-primary/5 border-none">
 			<CardHeader className="flex flex-row items-center justify-between flex-wrap gap-2">
 				<div className="flex flex-col gap-2">
-					<CardTitle className="text-xl">Deployments</CardTitle>
+					<CardTitle className="text-xl">Deploys</CardTitle>
 					<CardDescription>
 						See the last 10 deployments for this {type}
 					</CardDescription>

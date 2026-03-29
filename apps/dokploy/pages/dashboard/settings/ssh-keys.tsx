@@ -24,7 +24,7 @@ export async function getServerSideProps(
 	ctx: GetServerSidePropsContext<{ serviceId: string }>,
 ) {
 	const { user, session } = await validateRequest(ctx.req);
-	if (!user) {
+	if (!user || user.role !== "owner") {
 		return {
 			redirect: {
 				permanent: true,

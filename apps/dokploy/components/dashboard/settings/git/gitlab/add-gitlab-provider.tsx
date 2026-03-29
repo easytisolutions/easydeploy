@@ -152,16 +152,16 @@ export const AddGitlabProvider = () => {
 											<ExternalLink className="w-fit text-primary size-4" />
 										</Link>
 									</li>
-									<li>Navigate to Applications</li>
+									<li>Navegue para Aplicações</li>
 									<li>
 										Create a new application with the following details:
 										<ul className="list-disc list-inside ml-4">
-											<li>Name: Dokploy</li>
+											<li>Nome: easyti</li>
 											<li>
 												Redirect URI:{" "}
 												<span className="text-primary">{webhookUrl}</span>{" "}
 											</li>
-											<li>Scopes: api, read_user, read_repository</li>
+											<li>Escopos: api, read_user, read_repository</li>
 										</ul>
 									</li>
 									<li>
@@ -174,10 +174,10 @@ export const AddGitlabProvider = () => {
 									name="name"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Name</FormLabel>
+											<FormLabel>Nome</FormLabel>
 											<FormControl>
 												<Input
-													placeholder="Random Name eg(my-personal-account)"
+													placeholder="Nome, ex: minha-conta-pessoal"
 													{...field}
 												/>
 											</FormControl>
@@ -191,7 +191,7 @@ export const AddGitlabProvider = () => {
 									name="gitlabUrl"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Gitlab URL</FormLabel>
+											<FormLabel>URL do Gitlab</FormLabel>
 											<FormControl>
 												<Input placeholder="https://gitlab.com/" {...field} />
 											</FormControl>
@@ -205,7 +205,7 @@ export const AddGitlabProvider = () => {
 									name="gitlabInternalUrl"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Internal URL (Optional)</FormLabel>
+											<FormLabel>URL Interna (Opcional)</FormLabel>
 											<FormControl>
 												<Input
 													placeholder="http://gitlab:80"
@@ -228,11 +228,11 @@ export const AddGitlabProvider = () => {
 									name="redirectUri"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Redirect URI</FormLabel>
+											<FormLabel>URI de Redirecionamento</FormLabel>
 											<FormControl>
 												<Input
 													disabled
-													placeholder="Random Name eg(my-personal-account)"
+													placeholder="Nome, ex: minha-conta-pessoal"
 													{...field}
 												/>
 											</FormControl>
@@ -248,7 +248,7 @@ export const AddGitlabProvider = () => {
 										<FormItem>
 											<FormLabel>Application ID</FormLabel>
 											<FormControl>
-												<Input placeholder="Application ID" {...field} />
+												<Input placeholder="ID da Aplicação" {...field} />
 											</FormControl>
 											<FormMessage />
 										</FormItem>
@@ -264,7 +264,7 @@ export const AddGitlabProvider = () => {
 											<FormControl>
 												<Input
 													type="password"
-													placeholder="Application Secret"
+													placeholder="Secret da Aplicação"
 													{...field}
 												/>
 											</FormControl>
@@ -283,7 +283,7 @@ export const AddGitlabProvider = () => {
 											</FormLabel>
 											<FormControl>
 												<Input
-													placeholder="For organization/group access use the slugish name of the group eg: my-org"
+													placeholder="Para acesso de organização/grupo use o nome slug do grupo ex: minha-org"
 													{...field}
 												/>
 											</FormControl>
@@ -292,7 +292,7 @@ export const AddGitlabProvider = () => {
 									)}
 								/>
 
-								<Button isLoading={form.formState.isSubmitting}>
+								<Button isLoading={form.formState.isSubmitting} className="bg-easyti-primary text-white hover:bg-easyti-primary/90">
 									Configure GitLab App
 								</Button>
 							</div>

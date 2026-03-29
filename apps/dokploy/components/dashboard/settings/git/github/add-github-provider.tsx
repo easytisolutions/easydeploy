@@ -30,7 +30,7 @@ export const AddGithubProvider = () => {
 		const url = document.location.origin;
 		const manifest = JSON.stringify(
 			{
-				redirect_url: `${origin}/api/providers/github/setup?organizationId=${activeOrganization?.id ?? ""}&userId=${session?.user?.id ?? ""}`,
+				redirect_url: `${origin}/api/providers/github/setup?organizationId=${activeOrganização?.id ?? ""}&userId=${session?.user?.id ?? ""}`,
 				name: `Dokploy-${format(new Date(), "yyyy-MM-dd")}-${randomString()}`,
 				url: origin,
 				hook_attributes: {
@@ -52,20 +52,20 @@ export const AddGithubProvider = () => {
 		);
 
 		setManifest(manifest);
-	}, [activeOrganization?.id, session?.user?.id]);
+	}, [activeOrganização?.id, session?.user?.id]);
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
 			<DialogTrigger asChild>
 				<Button variant="secondary" className="flex items-center space-x-1">
 					<GithubIcon className="text-current fill-current" />
-					<span>Github</span>
+					<span>GitHub</span>
 				</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-2xl ">
 				<DialogHeader>
 					<DialogTitle className="flex items-center gap-2">
-						Github Provider <GithubIcon className="size-5" />
+						Provedor Github <GithubIcon className="size-5" />
 					</DialogTitle>
 				</DialogHeader>
 
@@ -73,14 +73,14 @@ export const AddGithubProvider = () => {
 					<CardContent className="p-0">
 						<div className="flex flex-col ">
 							<p className="text-muted-foreground text-sm">
-								To integrate your GitHub account with our services, you'll need
-								to create and install a GitHub app. This process is
-								straightforward and only takes a few minutes. Click the button
-								below to get started.
+								Para integrar sua conta do GitHub com nossos serviços, você precisará
+								criar e instalar um aplicativo GitHub. Esse processo é
+								simples e leva apenas alguns minutos. Clique no botão
+								abaixo para começar.
 							</p>
 							<div className="mt-4 flex flex-col gap-4">
 								<div className="flex flex-row gap-4">
-									<span>Organization?</span>
+									<span>Organização?</span>
 									<Switch
 										checked={isOrganization}
 										onCheckedChange={(checked) => setIsOrganization(checked)}
@@ -90,7 +90,7 @@ export const AddGithubProvider = () => {
 								{isOrganization && (
 									<Input
 										required
-										placeholder="Organization name"
+										placeholder="Nome da Organização"
 										onChange={(e) => setOrganization(e.target.value)}
 									/>
 								)}
@@ -98,8 +98,8 @@ export const AddGithubProvider = () => {
 							<form
 								action={
 									isOrganization
-										? `https://github.com/organizations/${organizationName}/settings/apps/new?state=gh_init:${activeOrganization?.id}:${session?.user?.id ?? ""}`
-										: `https://github.com/settings/apps/new?state=gh_init:${activeOrganization?.id}:${session?.user?.id ?? ""}`
+										? `https://github.com/organizations/${organizationName}/settings/apps/new?state=gh_init:${activeOrganização?.id}:${session?.user?.id ?? ""}`
+										: `https://github.com/settings/apps/new?state=gh_init:${activeOrganização?.id}:${session?.user?.id ?? ""}`
 								}
 								method="post"
 							>
@@ -128,14 +128,14 @@ export const AddGithubProvider = () => {
 										target="_blank"
 										rel="noopener noreferrer"
 									>
-										Unsure if you already have an app?
+										Não tem certeza se já tem um aplicativo?
 									</a>
 									<Button
 										disabled={isOrganization && organizationName.length < 1}
 										type="submit"
-										className="self-end"
+										className="self-end bg-easyti-primary text-white hover:bg-easyti-primary/90"
 									>
-										Create GitHub App
+										Criar App GitHub
 									</Button>
 								</div>
 							</form>

@@ -30,7 +30,7 @@ export const ShowRedirects = ({ applicationId }: Props) => {
 	const utils = api.useUtils();
 
 	return (
-		<Card className="bg-background">
+		<Card className="bg-easyti-primary/5">
 			<CardHeader className="flex flex-row justify-between flex-wrap gap-4">
 				<div>
 					<CardTitle className="text-xl">Redirects</CardTitle>

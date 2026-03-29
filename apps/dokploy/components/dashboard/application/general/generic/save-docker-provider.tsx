@@ -85,7 +85,7 @@ export const SaveDockerProvider = ({ applicationId }: Props) => {
 							name="dockerImage"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Docker Image</FormLabel>
+									<FormLabel>Imagem do Docker</FormLabel>
 									<FormControl>
 										<Input placeholder="node:16" {...field} />
 									</FormControl>
@@ -132,10 +132,10 @@ export const SaveDockerProvider = ({ applicationId }: Props) => {
 							name="password"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Password</FormLabel>
+									<FormLabel>Senha</FormLabel>
 									<FormControl>
 										<Input
-											placeholder="Password"
+											placeholder="Senha"
 											autoComplete="one-time-code"
 											{...field}
 											type="password"

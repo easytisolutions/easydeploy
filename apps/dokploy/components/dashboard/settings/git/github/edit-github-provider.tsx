@@ -119,10 +119,10 @@ export const EditGithubProvider = ({ githubId }: Props) => {
 									name="name"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Name</FormLabel>
+											<FormLabel>Nome</FormLabel>
 											<FormControl>
 												<Input
-													placeholder="Random Name eg(my-personal-account)"
+													placeholder="Nome, ex: minha-conta-pessoal"
 													{...field}
 												/>
 											</FormControl>
@@ -166,7 +166,7 @@ export const EditGithubProvider = ({ githubId }: Props) => {
 									>
 										Test Connection
 									</Button>
-									<Button type="submit" isLoading={form.formState.isSubmitting}>
+									<Button type="submit" isLoading={form.formState.isSubmitting} className="bg-easyti-primary text-white hover:bg-easyti-primary/90">
 										Update
 									</Button>
 								</div>

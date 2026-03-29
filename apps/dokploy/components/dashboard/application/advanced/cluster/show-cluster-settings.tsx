@@ -131,7 +131,7 @@ export const ShowClusterSettings = ({ id, type }: Props) => {
 	};
 
 	return (
-		<Card className="bg-background">
+		<Card className="bg-easyti-primary/5">
 			<CardHeader className="flex flex-row justify-between">
 				<div>
 					<CardTitle className="text-xl">Cluster Settings</CardTitle>

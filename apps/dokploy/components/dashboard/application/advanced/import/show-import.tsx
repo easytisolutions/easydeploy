@@ -141,7 +141,7 @@ export const ShowImport = ({ composeId }: Props) => {
 
 	return (
 		<>
-			<Card className="bg-background">
+			<Card className="bg-easyti-primary/5">
 				<CardHeader>
 					<CardTitle className="text-xl">Import</CardTitle>
 					<CardDescription>Import your Template configuration</CardDescription>

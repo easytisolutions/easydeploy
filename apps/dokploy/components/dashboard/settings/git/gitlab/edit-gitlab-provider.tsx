@@ -134,10 +134,10 @@ export const EditGitlabProvider = ({ gitlabId }: Props) => {
 									name="name"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Name</FormLabel>
+											<FormLabel>Nome</FormLabel>
 											<FormControl>
 												<Input
-													placeholder="Random Name eg(my-personal-account)"
+													placeholder="Nome, ex: minha-conta-pessoal"
 													{...field}
 												/>
 											</FormControl>
@@ -164,7 +164,7 @@ export const EditGitlabProvider = ({ gitlabId }: Props) => {
 									name="gitlabInternalUrl"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Internal URL (Optional)</FormLabel>
+											<FormLabel>URL Interna (Opcional)</FormLabel>
 											<FormControl>
 												<Input
 													placeholder="http://gitlab:80"
@@ -192,7 +192,7 @@ export const EditGitlabProvider = ({ gitlabId }: Props) => {
 											</FormLabel>
 											<FormControl>
 												<Input
-													placeholder="For organization/group access use the slugish name of the group eg: my-org"
+													placeholder="Para acesso de organização/grupo use o nome slug do grupo ex: minha-org"
 													{...field}
 												/>
 											</FormControl>
@@ -221,7 +221,7 @@ export const EditGitlabProvider = ({ gitlabId }: Props) => {
 									>
 										Test Connection
 									</Button>
-									<Button type="submit" isLoading={form.formState.isSubmitting}>
+									<Button type="submit" isLoading={form.formState.isSubmitting} className="bg-easyti-primary text-white hover:bg-easyti-primary/90">
 										Update
 									</Button>
 								</div>

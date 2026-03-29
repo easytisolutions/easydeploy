@@ -177,17 +177,17 @@ const MENU: Menu = {
 		},
 		{
 			isSingle: true,
-			title: "Git Providers",
+			title: "Provedores Git",
 			url: "/dashboard/settings/git-providers",
 			icon: GitBranch,
 			isEnabled: ({ permissions }) => !!permissions?.gitProviders.read,
 		},
 		{
 			isSingle: true,
-			title: "SSH Keys",
+			title: "Chaves SSH",
 			url: "/dashboard/settings/ssh-keys",
 			icon: KeyRound,
-			isEnabled: ({ permissions }) => !!permissions?.sshKeys.read,
+			isEnabled: ({ auth }) => auth?.role === "owner",
 		},
 		{
 			isSingle: true,
@@ -219,7 +219,7 @@ const MENU: Menu = {
 		},
 		{
 			isSingle: true,
-			title: "Monitoring",
+			title: "Monitoramento",
 			url: "/dashboard/monitoring",
 			icon: BarChartHorizontalBigIcon,
 			isEnabled: ({ isCloud, permissions }) =>
@@ -259,7 +259,7 @@ const MENU: Menu = {
 		},
 		{
 			isSingle: true,
-			title: "Schedules",
+			title: "Cronogramas",
 			url: "/dashboard/schedules",
 			icon: Clock,
 			isEnabled: ({ isCloud, permissions }) =>
@@ -267,7 +267,7 @@ const MENU: Menu = {
 		},
 		{
 			isSingle: true,
-			title: "Audit Logs",
+			title: "Logs de Auditoria",
 			icon: ClipboardList,
 			url: "/dashboard/settings/audit-logs",
 			isEnabled: ({ permissions }) => !!permissions?.auditLog.read,
@@ -296,7 +296,7 @@ const MENU: Menu = {
 		},
 		{
 			isSingle: true,
-			title: "Certificates",
+			title: "Certificados",
 			url: "/dashboard/settings/certificates",
 			icon: ShieldCheck,
 			isEnabled: ({ permissions }) => !!permissions?.certificate.read,
@@ -334,7 +334,7 @@ const MENU: Menu = {
 		},
 		{
 			isSingle: true,
-			title: "Billing",
+			title: "Faturamento",
 			url: "/dashboard/settings/billing",
 			icon: CreditCard,
 			isEnabled: ({ auth, isCloud }) => !!(auth?.role === "owner" && isCloud),

@@ -40,44 +40,44 @@ export const ShowGeneralApplication = ({ applicationId }: Props) => {
 		{ enabled: !!applicationId },
 	);
 	const { mutateAsync: update } = api.application.update.useMutation();
-	const { mutateAsync: start, isPending: isStarting } =
+	const { mutateAsync: start, isPending: isIniciaring } =
 		api.application.start.useMutation();
-	const { mutateAsync: stop, isPending: isStopping } =
+	const { mutateAsync: stop, isPending: isPararping } =
 		api.application.stop.useMutation();
 
 	const { mutateAsync: deploy } = api.application.deploy.useMutation();
 
-	const { mutateAsync: reload, isPending: isReloading } =
+	const { mutateAsync: reload, isPending: isRecarregaring } =
 		api.application.reload.useMutation();
 
 	const { mutateAsync: redeploy } = api.application.redeploy.useMutation();
 
 	return (
 		<>
-			<Card className="bg-background">
+			<Card className="bg-easyti-primary/5">
 				<CardHeader>
-					<CardTitle className="text-xl">Deploy Settings</CardTitle>
+					<CardTitle className="text-xl">Configurações de Deploy</CardTitle>
 				</CardHeader>
 				<CardContent className="flex flex-row gap-4 flex-wrap">
 					<TooltipProvider delayDuration={0} disableHoverableContent={false}>
 						{canDeploy && (
 							<DialogAction
-								title="Deploy Application"
-								description="Are you sure you want to deploy this application?"
+								title="Fazer Deploy"
+								description="Tem certeza que deseja fazer o deploy desta aplicação?"
 								type="default"
 								onClick={async () => {
 									await deploy({
 										applicationId: applicationId,
 									})
 										.then(() => {
-											toast.success("Application deployed successfully");
+											toast.success("Deploy realizado com sucesso");
 											refetch();
 											router.push(
 												`/dashboard/project/${data?.environment.projectId}/environment/${data?.environmentId}/services/application/${applicationId}?tab=deployments`,
 											);
 										})
 										.catch(() => {
-											toast.error("Error deploying application");
+											toast.error("Erro ao fazer deploy");
 										});
 								}}
 							>
@@ -107,8 +107,8 @@ export const ShowGeneralApplication = ({ applicationId }: Props) => {
 						)}
 						{canDeploy && (
 							<DialogAction
-								title="Reload Application"
-								description="Are you sure you want to reload this application?"
+								title="Recarregar Aplicação"
+								description="Tem certeza que deseja recarregar esta aplicação?"
 								type="default"
 								onClick={async () => {
 									await reload({
@@ -116,29 +116,29 @@ export const ShowGeneralApplication = ({ applicationId }: Props) => {
 										appName: data?.appName || "",
 									})
 										.then(() => {
-											toast.success("Application reloaded successfully");
+											toast.success("Aplicação recarregada com sucesso");
 											refetch();
 										})
 										.catch(() => {
-											toast.error("Error reloading application");
+											toast.error("Erro ao recarregar aplicação");
 										});
 								}}
 							>
 								<Button
 									variant="secondary"
-									isLoading={isReloading}
+									isLoading={isRecarregaring}
 									className="flex items-center gap-1.5 group focus-visible:ring-2 focus-visible:ring-offset-2"
 								>
 									<Tooltip>
 										<TooltipTrigger asChild>
 											<div className="flex items-center">
 												<RefreshCcw className="size-4 mr-1" />
-												Reload
+												Recarregar
 											</div>
 										</TooltipTrigger>
 										<TooltipPrimitive.Portal>
 											<TooltipContent sideOffset={5} className="z-[60]">
-												<p>Reload the application without rebuilding it</p>
+												<p>Recarregar the application without rebuilding it</p>
 											</TooltipContent>
 										</TooltipPrimitive.Portal>
 									</Tooltip>
@@ -147,19 +147,19 @@ export const ShowGeneralApplication = ({ applicationId }: Props) => {
 						)}
 						{canDeploy && (
 							<DialogAction
-								title="Rebuild Application"
-								description="Are you sure you want to rebuild this application?"
+								title="Refazer Build"
+								description="Tem certeza de que deseja refazer o build desta aplicação?"
 								type="default"
 								onClick={async () => {
 									await redeploy({
 										applicationId: applicationId,
 									})
 										.then(() => {
-											toast.success("Application rebuilt successfully");
+											toast.success("Build refeito com sucesso");
 											refetch();
 										})
 										.catch(() => {
-											toast.error("Error rebuilding application");
+											toast.error("Erro ao refazer build da aplicação");
 										});
 								}}
 							>
@@ -190,38 +190,38 @@ export const ShowGeneralApplication = ({ applicationId }: Props) => {
 
 						{canDeploy && data?.applicationStatus === "idle" ? (
 							<DialogAction
-								title="Start Application"
-								description="Are you sure you want to start this application?"
+								title="Iniciar Aplicação"
+								description="Tem certeza que deseja iniciar esta aplicação?"
 								type="default"
 								onClick={async () => {
 									await start({
 										applicationId: applicationId,
 									})
 										.then(() => {
-											toast.success("Application started successfully");
+											toast.success("Aplicação iniciada com sucesso");
 											refetch();
 										})
 										.catch(() => {
-											toast.error("Error starting application");
+											toast.error("Erro ao iniciar aplicação");
 										});
 								}}
 							>
 								<Button
 									variant="secondary"
-									isLoading={isStarting}
+									isLoading={isIniciaring}
 									className="flex items-center gap-1.5 group focus-visible:ring-2 focus-visible:ring-offset-2"
 								>
 									<Tooltip>
 										<TooltipTrigger asChild>
 											<div className="flex items-center">
 												<CheckCircle2 className="size-4 mr-1" />
-												Start
+												Iniciar
 											</div>
 										</TooltipTrigger>
 										<TooltipPrimitive.Portal>
 											<TooltipContent sideOffset={5} className="z-[60]">
 												<p>
-													Start the application (requires a previous successful
+													Iniciar the application (requires a previous successful
 													build)
 												</p>
 											</TooltipContent>
@@ -231,36 +231,36 @@ export const ShowGeneralApplication = ({ applicationId }: Props) => {
 							</DialogAction>
 						) : canDeploy ? (
 							<DialogAction
-								title="Stop Application"
-								description="Are you sure you want to stop this application?"
+								title="Parar Aplicação"
+								description="Tem certeza que deseja parar esta aplicação?"
 								onClick={async () => {
 									await stop({
 										applicationId: applicationId,
 									})
 										.then(() => {
-											toast.success("Application stopped successfully");
+											toast.success("Aplicação parada com sucesso");
 											refetch();
 										})
 										.catch(() => {
-											toast.error("Error stopping application");
+											toast.error("Erro ao parar aplicação");
 										});
 								}}
 							>
 								<Button
 									variant="destructive"
-									isLoading={isStopping}
+									isLoading={isPararping}
 									className="flex items-center gap-1.5 group focus-visible:ring-2 focus-visible:ring-offset-2"
 								>
 									<Tooltip>
 										<TooltipTrigger asChild>
 											<div className="flex items-center">
 												<Ban className="size-4 mr-1" />
-												Stop
+												Parar
 											</div>
 										</TooltipTrigger>
 										<TooltipPrimitive.Portal>
 											<TooltipContent sideOffset={5} className="z-[60]">
-												<p>Stop the currently running application</p>
+												<p>Parar the currently running application</p>
 											</TooltipContent>
 										</TooltipPrimitive.Portal>
 									</Tooltip>
@@ -277,7 +277,7 @@ export const ShowGeneralApplication = ({ applicationId }: Props) => {
 							className="flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-offset-2"
 						>
 							<Terminal className="size-4 mr-1" />
-							Open Terminal
+							Abrir Terminal
 						</Button>
 					</DockerTerminalModal>
 					{canUpdateService && (
@@ -292,21 +292,21 @@ export const ShowGeneralApplication = ({ applicationId }: Props) => {
 										autoDeploy: enabled,
 									})
 										.then(async () => {
-											toast.success("Auto Deploy Updated");
+											toast.success("Autodeploy Atualizado");
 											await refetch();
 										})
 										.catch(() => {
-											toast.error("Error updating Auto Deploy");
+											toast.error("Erro ao atualizar Autodeploy");
 										});
 								}}
-								className="flex flex-row gap-2 items-center data-[state=checked]:bg-primary"
+								className="flex flex-row gap-2 items-center data-[state=checked]:bg-easyti-primary"
 							/>
 						</div>
 					)}
 
 					{canUpdateService && (
 						<div className="flex flex-row items-center gap-2 rounded-md px-4 py-2 border">
-							<span className="text-sm font-medium">Clean Cache</span>
+							<span className="text-sm font-medium">Limpar Cache</span>
 							<Switch
 								aria-label="Toggle clean cache"
 								checked={data?.cleanCache || false}
@@ -316,21 +316,21 @@ export const ShowGeneralApplication = ({ applicationId }: Props) => {
 										cleanCache: enabled,
 									})
 										.then(async () => {
-											toast.success("Clean Cache Updated");
+											toast.success("Limpar Cache Updated");
 											await refetch();
 										})
 										.catch(() => {
-											toast.error("Error updating Clean Cache");
+											toast.error("Error updating Limpar Cache");
 										});
 								}}
-								className="flex flex-row gap-2 items-center data-[state=checked]:bg-primary"
+								className="flex flex-row gap-2 items-center data-[state=checked]:bg-easyti-primary"
 							/>
 						</div>
 					)}
 				</CardContent>
 			</Card>
-			<ShowProviderForm applicationId={applicationId} />
-			<ShowBuildChooseForm applicationId={applicationId} />
+			 <ShowProviderForm applicationId={applicationId} />
+			{/*  {/* <ShowBuildChooseForm applicationId={applicationId} /> */} \n{/* Builder type hidden as per EasyTi requirements */} */} \n{/* Builder type hidden as per EasyTi requirements */}
 		</>
 	);
 };
