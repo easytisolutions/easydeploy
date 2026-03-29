@@ -2,6 +2,8 @@ import {
 	createGitlab,
 	findGitlabById,
 	getGitlabBranches,
+	getGitlabFileContent,
+	getGitlabRepoFiles,
 	getGitlabRepositories,
 	haveGitlabRequirements,
 	testGitlabConnection,
@@ -10,6 +12,7 @@ import {
 } from "@dokploy/server";
 import { db } from "@dokploy/server/db";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 import {
 	createTRPCRouter,
 	protectedProcedure,
@@ -91,6 +94,40 @@ export const gitlabRouter = createTRPCRouter({
 		.input(apiFindGitlabBranches)
 		.query(async ({ input }) => {
 			return await getGitlabBranches(input);
+		}),
+	getGitlabRepoFiles: protectedProcedure
+		.input(
+			z.object({
+				gitlabId: z.string(),
+				repoId: z.number(),
+				branch: z.string(),
+				path: z.string().optional(),
+			}),
+		)
+		.query(async ({ input }) => {
+			return await getGitlabRepoFiles(
+				input.gitlabId,
+				input.repoId,
+				input.branch,
+				input.path,
+			);
+		}),
+	getGitlabFileContent: protectedProcedure
+		.input(
+			z.object({
+				gitlabId: z.string(),
+				repoId: z.number(),
+				branch: z.string(),
+				filePath: z.string(),
+			}),
+		)
+		.query(async ({ input }) => {
+			return await getGitlabFileContent(
+				input.gitlabId,
+				input.repoId,
+				input.branch,
+				input.filePath,
+			);
 		}),
 	testConnection: protectedProcedure
 		.input(apiGitlabTestConnection)

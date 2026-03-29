@@ -119,14 +119,16 @@ const Service = (
 				<Card className="h-full bg-sidebar p-2.5 rounded-xl w-full">
 					<div className="rounded-xl bg-background shadow-md ">
 						<CardHeader className="flex flex-row justify-between items-center">
-							<div className="flex flex-col">
-								<CardTitle className="text-xl flex flex-row gap-2">
+							<div className="flex flex-col gap-1">
+								<CardTitle className="text-xl flex flex-row gap-2 items-center">
 									<div className="relative flex flex-row gap-4">
 										<div className="absolute -right-1 -top-2">
 											<StatusTooltip status={data?.applicationStatus} />
 										</div>
 
-										<GlobeIcon className="h-6 w-6 text-muted-foreground" />
+										<div className="p-1.5 rounded-lg bg-easyti-primary/10">
+											<GlobeIcon className="h-5 w-5 text-easyti-primary" />
+										</div>
 									</div>
 									{data?.name}
 								</CardTitle>

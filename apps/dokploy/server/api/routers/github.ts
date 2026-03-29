@@ -1,6 +1,8 @@
 import {
 	findGithubById,
 	getGithubBranches,
+	getGithubFileContent,
+	getGithubRepoFiles,
 	getGithubRepositories,
 	haveGithubRequirements,
 	updateGithub,
@@ -8,6 +10,7 @@ import {
 } from "@dokploy/server";
 import { db } from "@dokploy/server/db";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 import {
 	createTRPCRouter,
 	protectedProcedure,
@@ -33,6 +36,44 @@ export const githubRouter = createTRPCRouter({
 		.input(apiFindGithubBranches)
 		.query(async ({ input }) => {
 			return await getGithubBranches(input);
+		}),
+	getGithubRepoFiles: protectedProcedure
+		.input(
+			z.object({
+				githubId: z.string(),
+				owner: z.string(),
+				repo: z.string(),
+				branch: z.string(),
+				path: z.string().optional(),
+			}),
+		)
+		.query(async ({ input }) => {
+			return await getGithubRepoFiles(
+				input.githubId,
+				input.owner,
+				input.repo,
+				input.branch,
+				input.path,
+			);
+		}),
+	getGithubFileContent: protectedProcedure
+		.input(
+			z.object({
+				githubId: z.string(),
+				owner: z.string(),
+				repo: z.string(),
+				branch: z.string(),
+				filePath: z.string(),
+			}),
+		)
+		.query(async ({ input }) => {
+			return await getGithubFileContent(
+				input.githubId,
+				input.owner,
+				input.repo,
+				input.branch,
+				input.filePath,
+			);
 		}),
 	githubProviders: protectedProcedure.query(async ({ ctx }) => {
 		let result = await db.query.github.findMany({

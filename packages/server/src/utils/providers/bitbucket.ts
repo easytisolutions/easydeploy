@@ -234,6 +234,68 @@ export const getBitbucketBranches = async (
 	}
 };
 
+/**
+ * Lista arquivos na raiz de um repositório Bitbucket.
+ */
+export const getBitbucketRepoFiles = async (
+	bitbucketId: string,
+	owner: string,
+	repo: string,
+	branch: string,
+	path?: string,
+) => {
+	const bitbucketProvider = await findBitbucketById(bitbucketId);
+
+	try {
+		const url = `https://api.bitbucket.org/2.0/repositories/${owner}/${repo}/src/${encodeURIComponent(branch)}/${encodeURIComponent(path || "")}?pagelen=100`;
+		const response = await fetch(url, {
+			method: "GET",
+			headers: getBitbucketHeaders(bitbucketProvider),
+		});
+
+		if (!response.ok) return [];
+		const data = await response.json();
+
+		return (data.values as Array<{ path: string; type: string }>).map(
+			(item) => ({
+				name: item.path.split("/").pop() || item.path,
+				type: (item.type === "commit_directory" ? "dir" : "file") as
+					| "file"
+					| "dir",
+				path: item.path,
+			}),
+		);
+	} catch {
+		return [];
+	}
+};
+
+/**
+ * Lê conteúdo de um arquivo do Bitbucket.
+ */
+export const getBitbucketFileContent = async (
+	bitbucketId: string,
+	owner: string,
+	repo: string,
+	branch: string,
+	filePath: string,
+) => {
+	const bitbucketProvider = await findBitbucketById(bitbucketId);
+
+	try {
+		const url = `https://api.bitbucket.org/2.0/repositories/${owner}/${repo}/src/${encodeURIComponent(branch)}/${encodeURIComponent(filePath)}`;
+		const response = await fetch(url, {
+			method: "GET",
+			headers: getBitbucketHeaders(bitbucketProvider),
+		});
+
+		if (!response.ok) return null;
+		return await response.text();
+	} catch {
+		return null;
+	}
+};
+
 export const testBitbucketConnection = async (
 	input: z.infer<typeof apiBitbucketTestConnection>,
 ) => {

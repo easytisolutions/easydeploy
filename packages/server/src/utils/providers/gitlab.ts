@@ -290,6 +290,78 @@ export const testGitlabConnection = async (
 	return filteredRepos.length;
 };
 
+/**
+ * Lista arquivos na raiz de um repositório GitLab.
+ */
+export const getGitlabRepoFiles = async (
+	gitlabId: string,
+	repoId: number,
+	branch: string,
+	path?: string,
+) => {
+	await refreshGitlabToken(gitlabId);
+	const gitlabProvider = await findGitlabById(gitlabId);
+	const baseUrl = (
+		gitlabProvider.gitlabInternalUrl || gitlabProvider.gitlabUrl
+	).replace(/\/+$/, "");
+
+	try {
+		const response = await fetch(
+			`${baseUrl}/api/v4/projects/${repoId}/repository/tree?ref=${encodeURIComponent(branch)}&path=${encodeURIComponent(path || "")}&per_page=100`,
+			{
+				headers: {
+					Authorization: `Bearer ${gitlabProvider.accessToken}`,
+				},
+			},
+		);
+
+		if (!response.ok) return [];
+		const data = await response.json();
+
+		return (
+			data as Array<{ name: string; type: string; path: string }>
+		).map((item) => ({
+			name: item.name,
+			type: (item.type === "tree" ? "dir" : "file") as "file" | "dir",
+			path: item.path,
+		}));
+	} catch {
+		return [];
+	}
+};
+
+/**
+ * Lê conteúdo de um arquivo do GitLab.
+ */
+export const getGitlabFileContent = async (
+	gitlabId: string,
+	repoId: number,
+	branch: string,
+	filePath: string,
+) => {
+	await refreshGitlabToken(gitlabId);
+	const gitlabProvider = await findGitlabById(gitlabId);
+	const baseUrl = (
+		gitlabProvider.gitlabInternalUrl || gitlabProvider.gitlabUrl
+	).replace(/\/+$/, "");
+
+	try {
+		const response = await fetch(
+			`${baseUrl}/api/v4/projects/${repoId}/repository/files/${encodeURIComponent(filePath)}/raw?ref=${encodeURIComponent(branch)}`,
+			{
+				headers: {
+					Authorization: `Bearer ${gitlabProvider.accessToken}`,
+				},
+			},
+		);
+
+		if (!response.ok) return null;
+		return await response.text();
+	} catch {
+		return null;
+	}
+};
+
 export const validateGitlabProvider = async (gitlabProvider: Gitlab) => {
 	try {
 		const allProjects = [];

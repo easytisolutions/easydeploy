@@ -4,7 +4,8 @@ import type { GetServerSidePropsContext } from "next";
 import dynamic from "next/dynamic";
 import type { ReactElement } from "react";
 import superjson from "superjson";
-import { ShowProjects } from "@/components/dashboard/projects/show";
+import { DashboardHomeV2 } from "@/components/features/dashboard/components/dashboard-home-v2";
+import { ShowProjectsV2 } from "@/components/features/projects/components/show-projects-v2";
 import { DashboardLayout } from "@/components/layouts/dashboard-layout";
 import { appRouter } from "@/server/api/root";
 import { api } from "@/utils/api";
@@ -23,7 +24,8 @@ const Dashboard = () => {
 		<>
 			{isCloud && <ShowWelcomeDokploy />}
 
-			<ShowProjects />
+			<DashboardHomeV2 />
+			<ShowProjectsV2 />
 		</>
 	);
 };

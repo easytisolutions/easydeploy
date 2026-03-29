@@ -2,12 +2,15 @@ import {
 	createBitbucket,
 	findBitbucketById,
 	getBitbucketBranches,
+	getBitbucketFileContent,
+	getBitbucketRepoFiles,
 	getBitbucketRepositories,
 	testBitbucketConnection,
 	updateBitbucket,
 } from "@dokploy/server";
 import { db } from "@dokploy/server/db";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 import {
 	createTRPCRouter,
 	protectedProcedure,
@@ -82,6 +85,44 @@ export const bitbucketRouter = createTRPCRouter({
 		.input(apiFindBitbucketBranches)
 		.query(async ({ input }) => {
 			return await getBitbucketBranches(input);
+		}),
+	getBitbucketRepoFiles: protectedProcedure
+		.input(
+			z.object({
+				bitbucketId: z.string(),
+				owner: z.string(),
+				repo: z.string(),
+				branch: z.string(),
+				path: z.string().optional(),
+			}),
+		)
+		.query(async ({ input }) => {
+			return await getBitbucketRepoFiles(
+				input.bitbucketId,
+				input.owner,
+				input.repo,
+				input.branch,
+				input.path,
+			);
+		}),
+	getBitbucketFileContent: protectedProcedure
+		.input(
+			z.object({
+				bitbucketId: z.string(),
+				owner: z.string(),
+				repo: z.string(),
+				branch: z.string(),
+				filePath: z.string(),
+			}),
+		)
+		.query(async ({ input }) => {
+			return await getBitbucketFileContent(
+				input.bitbucketId,
+				input.owner,
+				input.repo,
+				input.branch,
+				input.filePath,
+			);
 		}),
 	testConnection: protectedProcedure
 		.input(apiBitbucketTestConnection)

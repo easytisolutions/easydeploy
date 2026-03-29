@@ -223,3 +223,73 @@ export const getGithubBranches = async (
 
 	return branches;
 };
+
+/**
+ * Lista arquivos na raiz (ou path) de um repositório GitHub para detecção de stack.
+ * Retorna apenas nomes dos arquivos (não conteúdo).
+ */
+export const getGithubRepoFiles = async (
+	githubId: string,
+	owner: string,
+	repo: string,
+	branch: string,
+	path?: string,
+) => {
+	const githubProvider = await findGithubById(githubId);
+	const octokit = authGithub(githubProvider);
+
+	try {
+		const { data } = await octokit.rest.repos.getContent({
+			owner,
+			repo,
+			path: path || "",
+			ref: branch,
+		});
+
+		if (Array.isArray(data)) {
+			return data.map((item) => ({
+				name: item.name,
+				type: item.type as "file" | "dir",
+				path: item.path,
+			}));
+		}
+
+		// Se for um arquivo único, retorna como array de 1
+		return [
+			{ name: data.name, type: data.type as "file" | "dir", path: data.path },
+		];
+	} catch {
+		return [];
+	}
+};
+
+/**
+ * Lê o conteúdo de um arquivo específico do repositório GitHub.
+ * Usado para ler Dockerfile existente.
+ */
+export const getGithubFileContent = async (
+	githubId: string,
+	owner: string,
+	repo: string,
+	branch: string,
+	filePath: string,
+) => {
+	const githubProvider = await findGithubById(githubId);
+	const octokit = authGithub(githubProvider);
+
+	try {
+		const { data } = await octokit.rest.repos.getContent({
+			owner,
+			repo,
+			path: filePath,
+			ref: branch,
+		});
+
+		if (!Array.isArray(data) && data.type === "file" && data.content) {
+			return Buffer.from(data.content, "base64").toString("utf-8");
+		}
+		return null;
+	} catch {
+		return null;
+	}
+};
