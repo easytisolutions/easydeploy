@@ -27,11 +27,9 @@ import Link from "next/link";
 import { type ReactElement, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import superjson from "superjson";
-import { AddAiAssistant } from "@/components/dashboard/project/add-ai-assistant";
 import { AddApplication } from "@/components/dashboard/project/add-application";
 import { AddCompose } from "@/components/dashboard/project/add-compose";
 import { AddDatabase } from "@/components/dashboard/project/add-database";
-import { AddTemplate } from "@/components/dashboard/project/add-template";
 import { AdvancedEnvironmentSelector } from "@/components/dashboard/project/advanced-environment-selector";
 import { DuplicateProject } from "@/components/dashboard/project/duplicate-project";
 import { EnvironmentVariables } from "@/components/dashboard/project/environment-variables";
@@ -864,7 +862,7 @@ const EnvironmentPage = (
 	if (isLoading) {
 		return (
 			<div className="flex flex-row gap-2 items-center justify-center text-sm text-muted-foreground min-h-[60vh]">
-				<span>Loading...</span>
+				<span>Carregando...</span>
 				<Loader2 className="animate-spin size-4" />
 			</div>
 		);
@@ -874,7 +872,7 @@ const EnvironmentPage = (
 		return (
 			<div className="flex flex-col items-center justify-center min-h-[60vh]">
 				<span className="text-lg font-medium text-muted-foreground">
-					Environment not found
+					Ambiente não encontrado
 				</span>
 			</div>
 		);
@@ -908,7 +906,7 @@ const EnvironmentPage = (
 									</EnvironmentVariables>
 								</CardTitle>
 								<CardDescription>
-									{currentEnvironment.description || "No description provided"}
+									{currentEnvironment.description || "Sem descrição"}
 								</CardDescription>
 							</CardHeader>
 							<div className="flex flex-row gap-4 flex-wrap justify-between items-center">
@@ -956,11 +954,11 @@ const EnvironmentPage = (
 												</Button>
 											</DropdownMenuTrigger>
 											<DropdownMenuContent align="end">
-												<DropdownMenuLabel>Actions</DropdownMenuLabel>
+												<DropdownMenuLabel>Ações</DropdownMenuLabel>
 												<DropdownMenuSeparator />
 												<DialogAction
 													title="Iniciar Serviços"
-													description={`Are you sure you want to start ${selectedServices.length} services?`}
+													description={`Tem certeza de que deseja iniciar ${selectedServices.length} serviços?`}
 													type="default"
 													onClick={handleBulkStart}
 												>
@@ -969,11 +967,11 @@ const EnvironmentPage = (
 														className="w-full justify-start"
 													>
 														<CheckCircle2 className="mr-2 h-4 w-4" />
-														Start
+														Iniciar
 													</Button>
 												</DialogAction>
 												<DialogAction
-													title="Deploy Services"
+													title="Deploy de Serviços"
 													description={`Are you sure you want to deploy ${selectedServices.length} service${selectedServices.length !== 1 ? "s" : ""}? This will redeploy/restart the selected services.`}
 													onClick={handleBulkDeploy}
 													type="default"
@@ -991,7 +989,7 @@ const EnvironmentPage = (
 												</DialogAction>
 												<DialogAction
 													title="Parar Serviços"
-													description={`Are you sure you want to stop ${selectedServices.length} services?`}
+													description={`Tem certeza de que deseja parar ${selectedServices.length} serviços?`}
 													type="destructive"
 													onClick={handleBulkStop}
 												>

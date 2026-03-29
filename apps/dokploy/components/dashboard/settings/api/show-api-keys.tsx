@@ -1,4 +1,5 @@
 import { formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { Clock, ExternalLinkIcon, KeyIcon, Tag, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -28,10 +29,10 @@ export const ShowApiKeys = () => {
 						<div>
 							<CardTitle className="text-xl flex items-center gap-2">
 								<KeyIcon className="size-5" />
-								API/CLI Keys
-							</CardTitle>
-							<CardDescription>
-								Generate and manage API keys to access the API/CLI
+							Chaves API/CLI
+						</CardTitle>
+						<CardDescription>
+							Gere e gerencie chaves de API para acessar a API/CLI
 							</CardDescription>
 						</div>
 						<div className="flex flex-row gap-2 max-sm:flex-wrap items-end">
@@ -43,7 +44,7 @@ export const ShowApiKeys = () => {
 								target="_blank"
 								className="flex flex-row gap-2 items-center"
 							>
-								<span className="text-sm font-medium">View</span>
+								<span className="text-sm font-medium">Visualizar</span>
 								<ExternalLinkIcon className="size-4" />
 							</Link>
 						</div>
@@ -62,9 +63,9 @@ export const ShowApiKeys = () => {
 												<div className="flex flex-wrap gap-2 items-center text-sm text-muted-foreground">
 													<span className="flex items-center gap-1">
 														<Clock className="size-3.5" />
-														Created{" "}
-														{formatDistanceToNow(new Date(apiKey.createdAt))}{" "}
-														ago
+														Criado há{" "}
+														{formatDistanceToNow(new Date(apiKey.createdAt), { locale: ptBR })}{" "}
+														
 													</span>
 													{apiKey.prefix && (
 														<Badge
@@ -81,17 +82,17 @@ export const ShowApiKeys = () => {
 															className="flex items-center gap-1"
 														>
 															<Clock className="size-3.5" />
-															Expires in{" "}
+															Expira em{" "}
 															{formatDistanceToNow(
-																new Date(apiKey.expiresAt),
+																new Date(apiKey.expiresAt), { locale: ptBR }
 															)}{" "}
 														</Badge>
 													)}
 												</div>
 											</div>
 											<DialogAction
-												title="Delete API Key"
-												description="Are you sure you want to delete this API key? This action cannot be undone."
+												title="Excluir Chave API"
+												description="Tem certeza de que deseja excluir esta chave de API? Esta ação não pode ser desfeita."
 												type="destructive"
 												onClick={async () => {
 													try {
@@ -99,12 +100,12 @@ export const ShowApiKeys = () => {
 															apiKeyId: apiKey.id,
 														});
 														await refetch();
-														toast.success("API key deleted successfully");
+														toast.success("Chave de API excluída com sucesso");
 													} catch (error) {
 														toast.error(
 															error instanceof Error
 																? error.message
-																: "Error deleting API key",
+																: "Erro ao excluir chave de API",
 														);
 													}
 												}}
@@ -124,7 +125,7 @@ export const ShowApiKeys = () => {
 								<div className="flex flex-col items-center gap-3 py-6">
 									<KeyIcon className="size-8 text-muted-foreground" />
 									<span className="text-base text-muted-foreground">
-										No API keys found
+										Nenhuma chave de API encontrada
 									</span>
 								</div>
 							)}

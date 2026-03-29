@@ -40,6 +40,17 @@ const stateVariants: Record<
 	paused: "outline",
 };
 
+const stateLabels: Record<string, string> = {
+	pending: "Pendente",
+	waiting: "Aguardando",
+	active: "Ativo",
+	delayed: "Atrasado",
+	completed: "Concluído",
+	failed: "Falhou",
+	cancelled: "Cancelado",
+	paused: "Pausado",
+};
+
 function formatTs(ts?: number): string {
 	if (ts == null) return "—";
 	const d = new Date(ts);
@@ -59,7 +70,7 @@ function getJobLabel(row: QueueRow): string {
 	const type = d.applicationType ?? "job";
 	const title = d.titleLog ?? "";
 	if (title) return title;
-	if (d.applicationId) return `Application ${d.applicationId.slice(0, 8)}…`;
+	if (d.applicationId) return `Aplicação ${d.applicationId.slice(0, 8)}…`;
 	if (d.composeId) return `Compose ${d.composeId.slice(0, 8)}…`;
 	if (d.previewDeploymentId)
 		return `Preview ${d.previewDeploymentId.slice(0, 8)}…`;
@@ -133,7 +144,7 @@ export function ShowQueueTable(props: { embedded?: boolean }) {
 											<TableCell>{appType ?? row.name ?? "—"}</TableCell>
 											<TableCell>
 												<Badge variant={stateVariants[row.state] ?? "outline"}>
-													{row.state}
+													{stateLabels[row.state] ?? row.state}
 												</Badge>
 											</TableCell>
 											<TableCell className="text-muted-foreground text-xs">
@@ -154,7 +165,7 @@ export function ShowQueueTable(props: { embedded?: boolean }) {
 														<Button variant="ghost" size="sm" asChild>
 															<Link href={pathInfo!.href!}>
 																<ArrowRight className="size-4 mr-1" />
-																Service
+																Serviço
 															</Link>
 														</Button>
 													) : (
@@ -192,7 +203,7 @@ export function ShowQueueTable(props: { embedded?: boolean }) {
 																}}
 															>
 																<XCircle className="size-4 mr-1" />
-																Cancel
+																Cancelar
 															</Button>
 														)}
 												</div>
@@ -205,9 +216,9 @@ export function ShowQueueTable(props: { embedded?: boolean }) {
 									<TableCell colSpan={9} className="text-center py-12">
 										<div className="flex flex-col items-center justify-center gap-2 text-muted-foreground min-h-[30vh]">
 											<ListTodo className="size-8" />
-											<p className="font-medium">Queue is empty</p>
+											<p className="font-medium">Fila vazia</p>
 											<p className="text-sm">
-												Deployment jobs will appear here when they are queued.
+												Os jobs de deploy aparecerão aqui quando forem enfileirados.
 											</p>
 										</div>
 									</TableCell>

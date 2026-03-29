@@ -149,13 +149,8 @@ type Menu = {
 const MENU: Menu = {
 	// ─── SEÇÃO "USUÁRIO" ───────────────────────────────────
 	// Visível para TODOS os perfis (owner, admin, member)
+	// Wizard é o primeiro item — centro da experiência
 	user: [
-		{
-			isSingle: true,
-			title: "Projetos",
-			url: "/dashboard/projects",
-			icon: Folder,
-		},
 		{
 			isSingle: true,
 			title: "Novo Deploy",
@@ -164,16 +159,16 @@ const MENU: Menu = {
 		},
 		{
 			isSingle: true,
-			title: "Histórico",
-			url: "/dashboard/deployments",
-			icon: Rocket,
-			isEnabled: ({ permissions }) => !!permissions?.deployment.read,
+			title: "Projetos",
+			url: "/dashboard/projects",
+			icon: Folder,
 		},
 		{
 			isSingle: true,
-			title: "Perfil",
-			url: "/dashboard/settings/profile",
-			icon: User,
+			title: "Histórico de Deploys",
+			url: "/dashboard/deployments",
+			icon: Clock,
+			isEnabled: ({ permissions }) => !!permissions?.deployment.read,
 		},
 		{
 			isSingle: true,
@@ -184,6 +179,13 @@ const MENU: Menu = {
 		},
 		{
 			isSingle: true,
+			title: "Docker Registry",
+			url: "/dashboard/settings/registry",
+			icon: Package,
+			isEnabled: ({ permissions }) => !!permissions?.registry.read,
+		},
+		{
+			isSingle: true,
 			title: "Chaves SSH",
 			url: "/dashboard/settings/ssh-keys",
 			icon: KeyRound,
@@ -191,10 +193,9 @@ const MENU: Menu = {
 		},
 		{
 			isSingle: true,
-			title: "Registry",
-			url: "/dashboard/settings/registry",
-			icon: Package,
-			isEnabled: ({ permissions }) => !!permissions?.registry.read,
+			title: "Perfil",
+			url: "/dashboard/settings/profile",
+			icon: User,
 		},
 	],
 
@@ -204,7 +205,7 @@ const MENU: Menu = {
 		// Infraestrutura
 		{
 			isSingle: true,
-			title: "Web Server",
+			title: "Servidor Web",
 			url: "/dashboard/settings/server",
 			icon: Activity,
 			isEnabled: ({ permissions, isCloud }) =>
@@ -212,7 +213,7 @@ const MENU: Menu = {
 		},
 		{
 			isSingle: true,
-			title: "Remote Servers",
+			title: "Servidores Remotos",
 			url: "/dashboard/settings/servers",
 			icon: Server,
 			isEnabled: ({ permissions }) => !!permissions?.server.read,
@@ -289,14 +290,14 @@ const MENU: Menu = {
 		// Integrações
 		{
 			isSingle: true,
-			title: "S3 Destinations",
+			title: "Destinos S3",
 			url: "/dashboard/settings/destinations",
 			icon: Database,
 			isEnabled: ({ permissions }) => !!permissions?.destination.read,
 		},
 		{
 			isSingle: true,
-			title: "Certificados",
+			title: "Certificados SSL",
 			url: "/dashboard/settings/certificates",
 			icon: ShieldCheck,
 			isEnabled: ({ permissions }) => !!permissions?.certificate.read,
@@ -311,7 +312,7 @@ const MENU: Menu = {
 		},
 		{
 			isSingle: true,
-			title: "Requests",
+			title: "Requisições",
 			url: "/dashboard/requests",
 			icon: Forward,
 			isEnabled: ({ permissions, isCloud }) =>
@@ -341,14 +342,14 @@ const MENU: Menu = {
 		},
 		{
 			isSingle: true,
-			title: "License",
+			title: "Licença",
 			url: "/dashboard/settings/license",
 			icon: Key,
 			isEnabled: ({ auth }) => !!(auth?.role === "owner"),
 		},
 		{
 			isSingle: true,
-			title: "Whitelabeling",
+			title: "Personalização",
 			url: "/dashboard/settings/whitelabeling",
 			icon: Palette,
 			isEnabled: ({ auth, isCloud }) => !!(auth?.role === "owner" && !isCloud),
@@ -357,12 +358,12 @@ const MENU: Menu = {
 
 	help: [
 		{
-			name: "Documentation",
+			name: "Documentação",
 			url: "https://docs.easyti.cloud",
 			icon: BookIcon,
 		},
 		{
-			name: "Support",
+			name: "Suporte",
 			url: "https://discord.gg/2tBnJ3jDJc",
 			icon: CircleHelp,
 		},
@@ -401,10 +402,10 @@ function createMenuForAuthUser(opts: {
 
 	// Apply whitelabeling URL overrides to help items
 	const helpItems = filterEnabled(MENU.help).map((item) => {
-		if (opts.whitelabeling?.docsUrl && item.name === "Documentation") {
+		if (opts.whitelabeling?.docsUrl && item.name === "Documentação") {
 			return { ...item, url: opts.whitelabeling.docsUrl };
 		}
-		if (opts.whitelabeling?.supportUrl && item.name === "Support") {
+		if (opts.whitelabeling?.supportUrl && item.name === "Suporte") {
 			return { ...item, url: opts.whitelabeling.supportUrl };
 		}
 		return item;
@@ -566,7 +567,7 @@ function SidebarLogo() {
 											)}
 										>
 											<p className="text-sm font-medium leading-none">
-												{activeOrganization?.name ?? "Select Organization"}
+												{activeOrganization?.name ?? "Selecionar Organização"}
 											</p>
 										</div>
 									</div>
@@ -582,7 +583,7 @@ function SidebarLogo() {
 								sideOffset={4}
 							>
 								<DropdownMenuLabel className="text-xs text-muted-foreground shrink-0">
-									Organizations
+									Organizações
 								</DropdownMenuLabel>
 								<div className="overflow-y-auto overflow-x-hidden min-h-0 -mx-1 px-1">
 									{organizations?.map((org) => {
@@ -637,19 +638,19 @@ function SidebarLogo() {
 															})
 																.then(() => {
 																	refetch();
-																	toast.success("Default organization updated");
+																	toast.success("Organização padrão atualizada");
 																})
 																.catch((error) => {
 																	toast.error(
 																		error?.message ||
-																			"Error setting default organization",
+																			"Erro ao definir organização padrão",
 																	);
 																});
 														}}
 														title={
 															isDefault
-																? "Default organization"
-																: "Set as default"
+																? "Organização padrão"
+																: "Definir como padrão"
 														}
 													>
 														{isDefault ? (
@@ -670,8 +671,8 @@ function SidebarLogo() {
 														<>
 															<AddOrganization organizationId={org.id} />
 															<DialogAction
-																title="Delete Organization"
-																description="Are you sure you want to delete this organization?"
+																title="Excluir Organização"
+																description="Tem certeza de que deseja excluir esta organização?"
 																type="destructive"
 																onClick={async () => {
 																	await deleteOrganization({
@@ -680,13 +681,13 @@ function SidebarLogo() {
 																		.then(() => {
 																			refetch();
 																			toast.success(
-																				"Organization deleted successfully",
+																				"Organização excluída com sucesso",
 																			);
 																		})
 																		.catch((error) => {
 																			toast.error(
 																				error?.message ||
-																					"Error deleting organization",
+																					"Erro ao excluir organização",
 																			);
 																		});
 																}}
@@ -744,7 +745,7 @@ function SidebarLogo() {
 								side={"right"}
 								className="w-80"
 							>
-								<DropdownMenuLabel>Pending Invitations</DropdownMenuLabel>
+								<DropdownMenuLabel>Convites Pendentes</DropdownMenuLabel>
 								<div className="flex flex-col gap-2">
 									{invitations && invitations.length > 0 ? (
 										invitations.map((invitation) => (
@@ -757,16 +758,16 @@ function SidebarLogo() {
 														{invitation?.organization?.name}
 													</div>
 													<div className="text-xs text-muted-foreground">
-														Expires:{" "}
-														{new Date(invitation.expiresAt).toLocaleString()}
+														Expira:{" "}
+														{new Date(invitation.expiresAt).toLocaleString("pt-BR")}
 													</div>
 													<div className="text-xs text-muted-foreground">
-														Role: {invitation.role}
+														Função: {invitation.role}
 													</div>
 												</DropdownMenuItem>
 												<DialogAction
-													title="Accept Invitation"
-													description="Are you sure you want to accept this invitation?"
+													title="Aceitar Convite"
+													description="Tem certeza de que deseja aceitar este convite?"
 													type="default"
 													onClick={async () => {
 														const { error } =
@@ -776,24 +777,24 @@ function SidebarLogo() {
 
 														if (error) {
 															toast.error(
-																error.message || "Error accepting invitation",
+																error.message || "Erro ao aceitar convite",
 															);
 														} else {
-															toast.success("Invitation accepted successfully");
+															toast.success("Convite aceito com sucesso");
 															await refetchInvitations();
 															await refetch();
 														}
 													}}
 												>
 													<Button size="sm" variant="secondary">
-														Accept Invitation
+														Aceitar Convite
 													</Button>
 												</DialogAction>
 											</div>
 										))
 									) : (
 										<DropdownMenuItem disabled>
-											No pending invitations
+											Nenhum convite pendente
 										</DropdownMenuItem>
 									)}
 								</div>
@@ -851,7 +852,7 @@ export default function Page({ children }: Props) {
 	);
 
 	if (!isLoaded) {
-		return <div className="w-full h-screen bg-background" />; // Placeholder mientras se carga
+		return <div className="w-full h-screen bg-background" />;
 	}
 
 	return (
@@ -1083,7 +1084,7 @@ export default function Page({ children }: Props) {
 						</>
 					)}
 					<SidebarGroup className="group-data-[collapsible=icon]:hidden">
-						<SidebarGroupLabel>Extra</SidebarGroupLabel>
+						<SidebarGroupLabel>Ajuda</SidebarGroupLabel>
 						<SidebarMenu>
 							{help.map((item: ExternalLink) => (
 								<SidebarMenuItem key={item.name}>

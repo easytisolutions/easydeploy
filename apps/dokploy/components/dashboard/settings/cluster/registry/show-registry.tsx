@@ -34,7 +34,7 @@ export const ShowRegistry = () => {
 					<CardContent className="space-y-2 py-8 border-t">
 						{isPending ? (
 							<div className="flex flex-row gap-2 items-center justify-center text-sm text-muted-foreground min-h-[25vh]">
-								<span>Loading...</span>
+								<span>Carregando...</span>
 								<Loader2 className="animate-spin size-4" />
 							</div>
 						) : (
@@ -43,7 +43,7 @@ export const ShowRegistry = () => {
 									<div className="flex flex-col items-center gap-3  min-h-[25vh] justify-center">
 										<Package className="size-8 self-center text-muted-foreground" />
 										<span className="text-base text-muted-foreground text-center">
-											You don't have any registry configurations
+											Você não possui nenhuma configuração de registry
 										</span>
 										{permissions?.registry.create && <HandleRegistry />}
 									</div>
@@ -85,13 +85,13 @@ export const ShowRegistry = () => {
 																		})
 																			.then(() => {
 																				toast.success(
-																					"Registry configuration deleted successfully",
+																					"Configuração de registry excluída com sucesso",
 																				);
 																				refetch();
 																			})
 																			.catch(() => {
 																				toast.error(
-																					"Error deleting registry configuration",
+																					"Erro ao excluir configuração de registry",
 																				);
 																			});
 																	}}

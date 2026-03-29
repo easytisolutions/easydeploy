@@ -186,7 +186,7 @@ export const ShowProjectsV2 = () => {
 
 	return (
 		<>
-			<BreadcrumbSidebar list={[{ name: "Projects", href: "/dashboard/projects" }]} />
+			<BreadcrumbSidebar list={[{ name: "Projetos", href: "/dashboard/projects" }]} />
 			<PageTransition className="w-full">
 				<Card className="h-full bg-sidebar p-2.5 rounded-xl">
 					<div className="rounded-xl bg-background shadow-md">
@@ -194,9 +194,9 @@ export const ShowProjectsV2 = () => {
 							<CardHeader className="p-0">
 								<CardTitle className="text-xl flex flex-row gap-2">
 									<FolderInput className="size-6 text-muted-foreground self-center" />
-									Projects
+									Projetos
 								</CardTitle>
-								<CardDescription>Create and manage your projects</CardDescription>
+								<CardDescription>Crie e gerencie seus projetos</CardDescription>
 							</CardHeader>
 							<div className="flex gap-2">
 								{permissions?.project.create && (
@@ -374,7 +374,7 @@ export const ShowProjectsV2 = () => {
 																				<div className="flex flex-row gap-2 items-center rounded-lg bg-yellow-50 p-2 mt-2 dark:bg-yellow-950">
 																					<AlertTriangle className="size-4 text-yellow-600 dark:text-yellow-400 shrink-0" />
 																					<span className="text-xs text-yellow-600 dark:text-yellow-400">
-																						You have access to this project but no environments are available
+																						Você tem acesso a este projeto mas nenhum ambiente está disponível
 																					</span>
 																				</div>
 																			)}
@@ -387,7 +387,7 @@ export const ShowProjectsV2 = () => {
 																					</Button>
 																				</DropdownMenuTrigger>
 																				<DropdownMenuContent className="w-[200px] space-y-2 overflow-y-auto max-h-[280px]" onClick={(e) => e.stopPropagation()}>
-																					<DropdownMenuLabel className="font-normal">Actions</DropdownMenuLabel>
+																					<DropdownMenuLabel className="font-normal">Ações</DropdownMenuLabel>
 																					<div onClick={(e) => e.stopPropagation()}>
 																						<ProjectEnvironment projectId={project.projectId} />
 																					</div>
@@ -400,35 +400,35 @@ export const ShowProjectsV2 = () => {
 																								<AlertDialogTrigger className="w-full">
 																									<DropdownMenuItem className="w-full cursor-pointer space-x-3" onSelect={(e) => e.preventDefault()}>
 																										<TrashIcon className="size-4" />
-																										<span>Delete</span>
+																										<span>Excluir</span>
 																									</DropdownMenuItem>
 																								</AlertDialogTrigger>
 																								<AlertDialogContent>
 																									<AlertDialogHeader>
-																										<AlertDialogTitle>Are you sure to delete this project?</AlertDialogTitle>
+																										<AlertDialogTitle>Tem certeza que deseja excluir este projeto?</AlertDialogTitle>
 																										{!emptyServices ? (
 																											<div className="flex flex-row gap-4 rounded-lg bg-yellow-50 p-2 dark:bg-yellow-950">
 																												<AlertTriangle className="text-yellow-600 dark:text-yellow-400" />
 																												<span className="text-sm text-yellow-600 dark:text-yellow-400">
-																													You have active services, please delete them first
+																													Você tem serviços ativos, por favor exclua-os primeiro
 																												</span>
 																											</div>
 																										) : (
-																											<AlertDialogDescription>This action cannot be undone</AlertDialogDescription>
+																											<AlertDialogDescription>Esta ação não pode ser desfeita</AlertDialogDescription>
 																										)}
 																									</AlertDialogHeader>
 																									<AlertDialogFooter>
-																										<AlertDialogCancel>Cancel</AlertDialogCancel>
+																										<AlertDialogCancel>Cancelar</AlertDialogCancel>
 																										<AlertDialogAction
 																											disabled={!emptyServices}
 																											onClick={async () => {
 																												await mutateAsync({ projectId: project.projectId })
-																													.then(() => toast.success("Project deleted successfully"))
-																													.catch(() => toast.error("Error deleting this project"))
+																													.then(() => toast.success("Projeto excluído com sucesso"))
+																													.catch(() => toast.error("Erro ao excluir projeto"))
 																													.finally(() => utils.project.all.invalidate());
 																											}}
 																										>
-																											Delete
+																											Excluir
 																										</AlertDialogAction>
 																									</AlertDialogFooter>
 																								</AlertDialogContent>
@@ -442,10 +442,10 @@ export const ShowProjectsV2 = () => {
 																</CardHeader>
 																<CardFooter className="pt-4">
 																	<div className="space-y-1 text-xs flex flex-row justify-between max-sm:flex-wrap w-full gap-2 sm:gap-4">
-																		<DateTooltip date={project.createdAt}>Created</DateTooltip>
+																		<DateTooltip date={project.createdAt}>Criado</DateTooltip>
 																		<span className="flex items-center gap-1.5">
 																			<StatusPulse status={totalServices > 0 ? "running" : "idle"} size="sm" />
-																			{totalServices} {totalServices === 1 ? "service" : "services"}
+																			{totalServices} {totalServices === 1 ? "serviço" : "serviços"}
 																		</span>
 																	</div>
 																</CardFooter>

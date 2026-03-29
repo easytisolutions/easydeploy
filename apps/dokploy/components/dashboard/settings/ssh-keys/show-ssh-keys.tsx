@@ -1,4 +1,5 @@
 import { formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { KeyRound, Loader2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { DialogAction } from "@/components/shared/dialog-action";
@@ -25,18 +26,18 @@ export const ShowDestinations = () => {
 				<div className="rounded-xl bg-background shadow-md ">
 					<CardHeader className="">
 						<CardTitle className="text-xl flex flex-row gap-2">
-							<KeyRound className="size-6 text-muted-foreground self-center" />
-							SSH Keys
+							<KeyRound className="size-6 text-easyti-primary self-center" />
+							Chaves SSH
 						</CardTitle>
 						<CardDescription>
-							Create and manage SSH Keys, you can use them to access your
-							servers, git private repositories, and more.
+							Crie e gerencie suas chaves SSH. Você pode usá-las para acessar
+							seus servidores, repositórios privados do Git e muito mais.
 						</CardDescription>
 					</CardHeader>
 					<CardContent className="space-y-2 py-8 border-t">
 						{isPending ? (
 							<div className="flex flex-row gap-2 items-center justify-center text-sm text-muted-foreground min-h-[25vh]">
-								<span>Loading...</span>
+								<span>Carregando...</span>
 								<Loader2 className="animate-spin size-4" />
 							</div>
 						) : (
@@ -45,7 +46,7 @@ export const ShowDestinations = () => {
 									<div className="flex flex-col items-center gap-3  min-h-[25vh] justify-center">
 										<KeyRound className="size-8 self-center text-muted-foreground" />
 										<span className="text-base text-muted-foreground text-center">
-											You don't have any SSH keys
+											Você não possui nenhuma chave SSH
 										</span>
 										{permissions?.sshKeys.create && <HandleSSHKeys />}
 									</div>
@@ -69,11 +70,12 @@ export const ShowDestinations = () => {
 																			{sshKey.description}
 																		</span>
 																		<div className="text-xs  text-muted-foreground">
-																			Created:{" "}
+																			Criado:{" "}
 																			{formatDistanceToNow(
 																				new Date(sshKey.createdAt),
 																				{
 																					addSuffix: true,
+																					locale: ptBR,
 																				},
 																			)}
 																		</div>
@@ -87,8 +89,8 @@ export const ShowDestinations = () => {
 
 															{permissions?.sshKeys.delete && (
 																<DialogAction
-																	title="Delete SSH Key"
-																	description="Are you sure you want to delete this SSH Key?"
+																	title="Excluir Chave SSH"
+																	description="Tem certeza de que deseja excluir esta chave SSH?"
 																	type="destructive"
 																	onClick={async () => {
 																		await mutateAsync({
@@ -96,12 +98,12 @@ export const ShowDestinations = () => {
 																		})
 																			.then(() => {
 																				toast.success(
-																					"SSH Key deleted successfully",
+																					"Chave SSH excluída com sucesso",
 																				);
 																				refetch();
 																			})
 																			.catch(() => {
-																				toast.error("Error deleting SSH Key");
+																				toast.error("Erro ao excluir chave SSH");
 																			});
 																	}}
 																>

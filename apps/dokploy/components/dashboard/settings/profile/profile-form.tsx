@@ -35,8 +35,8 @@ import { Enable2FA } from "./enable-2fa";
 const profileSchema = z.object({
 	email: z
 		.string()
-		.email("Please enter a valid email address")
-		.min(1, "Email is required"),
+		.email("Por favor, insira um endereço de email válido")
+		.min(1, "Email é obrigatório"),
 	password: z.string().nullable(),
 	currentPassword: z.string().nullable(),
 	image: z.string().optional(),
@@ -133,7 +133,7 @@ export const ProfileForm = () => {
 				lastName: values.lastName || undefined,
 			});
 			await refetch();
-			toast.success("Profile Updated");
+			toast.success("Perfil atualizado");
 			form.reset({
 				email: values.email,
 				password: "",
@@ -143,7 +143,7 @@ export const ProfileForm = () => {
 				lastName: values.lastName || "",
 			});
 		} catch (error) {
-			toast.error("Error updating the profile");
+			toast.error("Erro ao atualizar perfil");
 		}
 	};
 
@@ -169,7 +169,7 @@ export const ProfileForm = () => {
 						{isError && <AlertBlock type="error">{error?.message}</AlertBlock>}
 						{isPending ? (
 							<div className="flex flex-row gap-2 items-center justify-center text-sm text-muted-foreground min-h-[35vh]">
-								<span>Loading...</span>
+								<span>Carregando...</span>
 								<Loader2 className="animate-spin size-4" />
 							</div>
 						) : (
@@ -339,7 +339,7 @@ export const ProfileForm = () => {
 																					// max file size 2mb
 																					if (file.size > 2 * 1024 * 1024) {
 																						toast.error(
-																							"Image size must be less than 2MB",
+																							"O tamanho da imagem deve ser menor que 2MB",
 																						);
 																						return;
 																					}
@@ -424,11 +424,11 @@ export const ProfileForm = () => {
 															<div className="space-y-0.5">
 																<FormLabel>Permitir representação</FormLabel>
 																<FormDescription>
-																	Enable this option to allow Dokploy Cloud
-																	administrators to temporarily access your
-																	account for troubleshooting and support
-																	purposes. This helps them quickly identify and
-																	resolve any issues you may encounter.
+																	Ative esta opção para permitir que administradores
+																	do EasyTI Cloud acessem temporariamente sua conta
+																	para fins de suporte e resolução de problemas. Isso
+																	ajuda a identificar e resolver rapidamente quaisquer
+																	problemas que você possa encontrar.
 																</FormDescription>
 															</div>
 															<FormControl>
